@@ -33,8 +33,6 @@ public class LoginService extends HttpServlet {
             String usernameFromParameter = request.getParameter(USERNAME);
             usernameFromParameter = usernameFromParameter.trim();
             if (userManager.isUserExists(usernameFromParameter)) {
-               // String errorMessage = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
-                //response.sendError(401, errorMessage);
                 response.setStatus(401);
                 try (PrintWriter out = response.getWriter()) {
                     ErrorLoginJson error = new ErrorLoginJson();

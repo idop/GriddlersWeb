@@ -3,10 +3,12 @@ package Game;
 import Game.Player.Player;
 import Game.Player.PlayerTurn;
 import Game.Player.PlayerTurnException;
+import Game.Player.PlayerType;
 import GameXmlParser.GameBoardXmlParser;
 import GameXmlParser.Schema.Constraints;
 import GameXmlParser.Schema.GameType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +19,7 @@ public class Game {
     private final GameType gameType;
     private final int numberOfPlayers;
     private final SolutionBoard solutionBoard;
+    private final String gameTitle;
     private List<Player> players;
     private int currentPlayerId = 0;
     private List<Constraints> rowConstraints;
@@ -27,7 +30,11 @@ public class Game {
     private int currentRound;
     private boolean gameEnded;
     private long startTime;
-    private int maxNumberOfRounds;
+    private int totalmoves;
+
+    public String getGameTitle() {
+        return gameTitle;
+    }
 
     public Game(GameBoardXmlParser gameBoardXmlParser) {
         currentRound = 1;
@@ -38,21 +45,18 @@ public class Game {
         maxColumnConstraints = getMaxConstraints(gameBoardXmlParser.getColumns(), this.columnConstraints);
         maxRowConstraints = getMaxConstraints(gameBoardXmlParser.getRows(), this.rowConstraints);
         startTime = System.currentTimeMillis();
-        players = gameBoardXmlParser.getPlayers();
-        numberOfPlayers = players.size();
-        switch (gameType) {
-            case SinglePlayer:
-                break;
-            case MultiPlayer:
-                maxNumberOfRounds = gameBoardXmlParser.getMoves();
-                break;
-            case DynamicMultiPlayer:
-                break;
-        }
+        numberOfPlayers = gameBoardXmlParser.getTotalPlayers();
+        players = new ArrayList<>(numberOfPlayers);
+        totalmoves = gameBoardXmlParser.getTotalMoves();
+        gameTitle = gameBoardXmlParser.getGameTitle();
     }
 
-    public int getMaxNumberOfRounds() {
-        return maxNumberOfRounds;
+    public void addPlayer(String playerName , PlayerType playerType){
+
+    }
+
+    public int getTotalmoves() {
+        return totalmoves;
     }
 
     public int getCurrentRound() {
@@ -155,7 +159,7 @@ public class Game {
         int newRoundNumber;
         if (nextPlayerId == 0) {
             newRoundNumber = currentRound + 1;
-            if (newRoundNumber > maxNumberOfRounds) {
+            if (newRoundNumber > totalmoves) {
                 gameEnded = true;
             } else {
                 currentRound = newRoundNumber;

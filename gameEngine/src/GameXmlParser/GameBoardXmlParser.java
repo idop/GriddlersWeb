@@ -1,10 +1,6 @@
 package GameXmlParser;
 
 import Game.BoardSquare;
-import Game.GameBoard;
-import Game.Player.ComputerPlayer;
-import Game.Player.HumenPlayer;
-import Game.Player.PlayerType;
 import Game.SolutionBoard;
 import GameXmlParser.Schema.Constraint;
 import GameXmlParser.Schema.Constraints;
@@ -20,7 +16,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 
@@ -29,7 +24,6 @@ import java.util.List;
  */
 public class GameBoardXmlParser {
     private static final String JAXB_XML_GAME_PACKAGE_NAME = "GameXmlParser.Schema.Generated";
-    private static final String DEFAULT_PLAYER = "default Player";
     private static final String illegalXmlFileMessage = "Game Definition Xml File is illegal";
     private static final String sliceIsDefinedMoreThenOneTime = "Slice with orientation %s and index %d is defined more then one time";
     private static final String sliceIsDefinedWithIllegalId = "Slice with orientation %s and index %d exceeds the maximum index  of %d";
@@ -45,7 +39,6 @@ public class GameBoardXmlParser {
     private static final String orientationRow = "row";
     private static final String orientationColumn = "column";
     private static final String InvalidConstraintsOnSolution = "Solution has a %s Constraint that does not match the constraint defined in the xml file";
-    private static final String invlaidMultiplayersMoves = "Invalid Number Of Moves entered %s";
     private static final String squareIsDefinedTwice = "Solution square in Row %d and Column %d is defined twice";
     private static final int minIndexValue = 0;
     private static final int maxDimension = 100;
@@ -59,17 +52,20 @@ public class GameBoardXmlParser {
     private Constraints[] columnConstraints;
     private int rows;
     private int columns;
-    private int moves;
-    private List<Game.Player.Player> players = new ArrayList<>();
+    private int totalMoves;
+    private String gameTitle;
+    private int  totalPlayers;
 
-
-    public int getMoves() {
-        return moves;
+    public int getTotalPlayers() {
+        return totalPlayers;
     }
 
+    public int getTotalMoves() {
+        return totalMoves;
+    }
 
-    public List<Game.Player.Player> getPlayers() {
-        return players;
+    public String getGameTitle() {
+        return gameTitle;
     }
 
 
@@ -93,47 +89,14 @@ public class GameBoardXmlParser {
         extractBoardDimensions();
         extractSlices();
         extractSolutionBoard();
-        switch (gametype) {
-            case SinglePlayer:
-                createDefaultPlayer();
-                break;
-            case MultiPlayer:
-                extractMultiPlayersInfo();
-                break;
-            case DynamicMultiPlayer:
-                break;
-        }
+        extractDynamicMultiPlayersInfo();
     }
 
-    private void createDefaultPlayer() {
-        players.add(new Game.Player.Player(DEFAULT_PLAYER, PlayerType.Human, 0, new GameBoard(rows, columns)));
-    }
-
-    private void extractMultiPlayersInfo() throws GameDefinitionsXmlParserException {
+    private void extractDynamicMultiPlayersInfo() throws GameDefinitionsXmlParserException {
         try {
-            moves = Integer.parseInt(gameDescriptor.getMultiPlayers().getMoves());
-            Players xmlPlayers = gameDescriptor.getMultiPlayers().getPlayers();
-            HashSet<Integer> idSet = new HashSet<>();
-            for (Player player : xmlPlayers.getPlayer()) {
-                int id = player.getId().intValue();
-                if (idSet.contains(id)) {
-                    throw new GameDefinitionsXmlParserException("Duplicate Player ID was found in the xml");
-                } else {
-                    idSet.add(id);
-                }
-                PlayerType playerType = PlayerType.valueOf(player.getPlayerType());
-                String name = player.getName();
-                Game.Player.Player thePlayer;
-                if (playerType.equals(PlayerType.Human)) {
-                    thePlayer = new HumenPlayer(name, playerType, id, new GameBoard(rows, columns));
-                } else {
-                    thePlayer = new ComputerPlayer(name, playerType, id, new GameBoard(rows, columns));
-                }
-                players.add(thePlayer);
-
-            }
-        } catch (NumberFormatException e) {
-            throw new GameDefinitionsXmlParserException(String.format(invlaidMultiplayersMoves, gameDescriptor.getMultiPlayers().getMoves() == null ? "null" : gameDescriptor.getMultiPlayers().getMoves()));
+            totalMoves = Integer.parseInt(gameDescriptor.getDynamicMultiPlayers().getTotalmoves());
+            gameTitle = gameDescriptor.getDynamicMultiPlayers().getGametitle();
+            totalPlayers = Integer.parseInt(gameDescriptor.getDynamicMultiPlayers().getTotalPlayers());
         } catch (Exception e) {
             throw new GameDefinitionsXmlParserException(e.getMessage());
         }
@@ -281,6 +244,9 @@ public class GameBoardXmlParser {
     private void extractGameType() throws GameDefinitionsXmlParserException {
         try {
             gametype = GameType.valueOf(gameDescriptor.getGameType());
+            if (gametype != GameType.DynamicMultiPlayers) {
+                throw new GameDefinitionsXmlParserException("Game Type must be DynamicMultiPlayers");
+            }
         } catch (Exception e) {
             throw new GameDefinitionsXmlParserException(String.format(invalidGameTypeMessage, gameDescriptor.getGameType()), e);
         }

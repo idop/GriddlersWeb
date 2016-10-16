@@ -7,7 +7,7 @@ import Game.GameBoard;
  */
 public class HumenPlayer extends Player {
 
-    public HumenPlayer(String name, PlayerType playerType, int id, GameBoard gameBoard) {
-        super(name, playerType, id, gameBoard);
+    public HumenPlayer(String name, PlayerType playerType, GameBoard gameBoard) {
+        super(name, playerType, gameBoard);
     }
 }

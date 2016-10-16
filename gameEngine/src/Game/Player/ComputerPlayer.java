@@ -14,8 +14,8 @@ public class ComputerPlayer extends Player {
     Random random = new Random();
     int maxNumberOfMovesToGet;
 
-    public ComputerPlayer(String name, PlayerType playerType, int id, GameBoard gameBoard) {
-        super(name, playerType, id, gameBoard);
+    public ComputerPlayer(String name, PlayerType playerType, GameBoard gameBoard) {
+        super(name, playerType, gameBoard);
         maxNumberOfMovesToGet = (getGameBoard().getColumns() + getGameBoard().getRows()) / 2;
     }
 

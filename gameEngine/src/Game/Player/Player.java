@@ -1,8 +1,10 @@
 package Game.Player;
 
 
-import Game.*;
-import javafx.beans.property.SimpleStringProperty;
+import Game.BoardSquare;
+import Game.GameBoard;
+import Game.GameMove;
+import Game.SolutionBoard;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -17,7 +19,6 @@ public class Player {
     private static final String undoExceptionMessage = "Undo List is Empty";
     private static final String redoExceptionMessage = "Redo List is Empty";
     private final int numberOfBoardSquares;
-    private int id;
     private String name;
     private PlayerType playerType;
     private List<PlayerTurn> undoList;
@@ -25,36 +26,16 @@ public class Player {
     private boolean playerWon = false;
     private PlayerGameStatistics statistics;
     private int turnNumber = 1;
-    private final SimpleStringProperty nameProperty;
-    private final SimpleStringProperty idProperty;
-    private final SimpleStringProperty typeProperty;
-    private final SimpleStringProperty scoreProperty;
 
 
-    public Player(String name, PlayerType playerType, int id, GameBoard gameBoard) {
+
+    public Player(String name, PlayerType playerType, GameBoard gameBoard) {
         this.name = name;
         this.playerType = playerType;
-        this.id = id;
         undoList = new ArrayList<>();
         statistics = new PlayerGameStatistics();
         this.gameBoard = gameBoard;
         numberOfBoardSquares = gameBoard.getNumberOfSquares();
-        nameProperty = new SimpleStringProperty(name);
-        idProperty = new SimpleStringProperty(String.valueOf(id));
-        typeProperty = new SimpleStringProperty(playerType.toString());
-        scoreProperty = new SimpleStringProperty(String.format(" %,.2f%%", statistics.getScore()));
-    }
-
-    public String getScoreProperty() {
-        return scoreProperty.get();
-    }
-
-    public SimpleStringProperty scorePropertyProperty() {
-        return scoreProperty;
-    }
-
-    public void setScoreProperty(String scoreProperty) {
-        this.scoreProperty.set(scoreProperty);
     }
 
     public String getName() {
@@ -144,7 +125,6 @@ public class Player {
         }
         playerWon = (numberOfCorrcetSquares == numberOfBoardSquares);
         statistics.setScore((double) numberOfCorrcetSquares / (double) numberOfBoardSquares);
-        scoreProperty.setValue(String.format(" %,.2f%%", statistics.getScore()));
     }
 
     public void printMoveHistory()
@@ -159,17 +139,6 @@ public class Player {
         return statistics.getScoreAsString();
     }
 
-    public String getNameProperty() {
-        return nameProperty.get();
-    }
-
-    public String getIdProperty() {
-        return idProperty.get();
-    }
-
-    public String getTypeProperty() {
-        return typeProperty.get();
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -178,13 +147,13 @@ public class Player {
 
         Player player = (Player) o;
 
-        return id == player.id;
+        return name != null ? name.equals(player.name) : player.name == null;
 
     }
 
     @Override
     public int hashCode() {
-        return id;
+        return name != null ? name.hashCode() : 0;
     }
 
     public int getUndoListSize() {
