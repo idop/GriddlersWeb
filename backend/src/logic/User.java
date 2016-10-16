@@ -1,12 +1,14 @@
 package logic;
 
+import Game.Player.PlayerType;
+
 /**
  * Created by ido on 11/10/2016.
  */
 public class User {
     private String username;
-    private String playerType;
-    public User(String username, String playerType) {
+    private PlayerType playerType;
+    public User(String username, PlayerType playerType) {
         this.username=username;
         this.playerType= playerType;
     }

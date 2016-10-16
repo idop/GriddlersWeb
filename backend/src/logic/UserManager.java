@@ -1,5 +1,7 @@
 package logic;
 
+import Game.Player.PlayerType;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +20,7 @@ public class UserManager {
 
     public void addUser(String username, String playerType) {
 
-        users.put(username, new User(username, playerType));
+        users.put(username, new User(username, PlayerType.valueOf(playerType)));
     }
 
     public void removeUser(String username) {
