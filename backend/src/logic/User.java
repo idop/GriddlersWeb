@@ -12,4 +12,12 @@ public class User {
         this.username=username;
         this.playerType= playerType;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public PlayerType getPlayerType() {
+        return playerType;
+    }
 }

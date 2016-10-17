@@ -30,10 +30,14 @@ public class Game {
     private int currentRound;
     private boolean gameEnded;
     private long startTime;
-    private int totalmoves;
+    private int totalMoves;
 
     public String getGameTitle() {
         return gameTitle;
+    }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
     }
 
     public Game(GameBoardXmlParser gameBoardXmlParser) {
@@ -47,7 +51,7 @@ public class Game {
         startTime = System.currentTimeMillis();
         numberOfPlayers = gameBoardXmlParser.getTotalPlayers();
         players = new ArrayList<>(numberOfPlayers);
-        totalmoves = gameBoardXmlParser.getTotalMoves();
+        totalMoves = gameBoardXmlParser.getTotalMoves();
         gameTitle = gameBoardXmlParser.getGameTitle();
     }
 
@@ -56,7 +60,7 @@ public class Game {
     }
 
     public int getTotalmoves() {
-        return totalmoves;
+        return totalMoves;
     }
 
     public int getCurrentRound() {
@@ -159,7 +163,7 @@ public class Game {
         int newRoundNumber;
         if (nextPlayerId == 0) {
             newRoundNumber = currentRound + 1;
-            if (newRoundNumber > totalmoves) {
+            if (newRoundNumber > totalMoves) {
                 gameEnded = true;
             } else {
                 currentRound = newRoundNumber;

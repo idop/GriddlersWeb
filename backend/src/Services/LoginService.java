@@ -1,13 +1,11 @@
 package Services;
 
-import com.google.gson.Gson;
 import logic.UserManager;
 import utils.ServletUtils;
 import utils.SessionUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,10 +17,9 @@ import static constants.Constants.*;
  * Created by ido on 11/10/2016.
  */
 @WebServlet(name = "LoginService", urlPatterns = {"/login"})
-public class LoginService extends HttpServlet {
+public class LoginService extends JsonHttpServlet {
 
-    private Gson gson = new Gson();
-
+    @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -35,9 +32,9 @@ public class LoginService extends HttpServlet {
             if (userManager.isUserExists(usernameFromParameter)) {
                 response.setStatus(401);
                 try (PrintWriter out = response.getWriter()) {
-                    ErrorLoginJson error = new ErrorLoginJson();
-                    error.message = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
-                    String jsonResponse = gson.toJson(error);
+                    ErrorJsonResponse errorJsonResponse = new ErrorJsonResponse();
+                    errorJsonResponse.message = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
+                    String jsonResponse = gson.toJson(errorJsonResponse);
                     out.print(jsonResponse);
                     out.flush();
                 }
@@ -59,32 +56,12 @@ public class LoginService extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Login Service";
     }// </editor-fold>
 
-
-    private class SuccessLoginJson
+    private class SuccessLoginJson extends SuccessJsonResponse
     {
-        public boolean success = true;
         public String username;
-    }
-
-    private class ErrorLoginJson
-    {
-        public boolean error = true;
-        public String message;
     }
 }

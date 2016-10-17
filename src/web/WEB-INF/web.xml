@@ -12,4 +12,20 @@
         <servlet-name>LoginService</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>PlayersService</servlet-name>
+        <servlet-class>Services.PlayersService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PlayersService</servlet-name>
+        <url-pattern>/players</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GamesService</servlet-name>
+        <servlet-class>Services.GamesService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GamesService</servlet-name>
+        <url-pattern>/games</url-pattern>
+    </servlet-mapping>
 </web-app>
