@@ -8,10 +8,7 @@
           <element id="module-output" name="backend" />
           <element id="module-output" name="gameEngine" />
         </element>
-        <element id="directory" name="lib">
-          <element id="library" level="project" name="gson-2.1" />
-          <element id="library" level="project" name="Java 6 EE" />
-        </element>
+        <element id="directory" name="lib" />
       </element>
       <element id="javaee-facet-resources" facet="GriddlersWeb/web/Web" />
     </root>

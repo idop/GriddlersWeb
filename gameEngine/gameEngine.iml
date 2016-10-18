@@ -7,7 +7,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Java 6 EE" level="project" />
-    <orderEntry type="library" name="gson-2.1" level="project" />
   </component>
 </module>

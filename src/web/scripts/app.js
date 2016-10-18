@@ -3,10 +3,12 @@
 // declare modules
 angular.module('login', []);
 angular.module('Home', []);
+angular.module('Game', []);
 
 angular.module('griddlersWebApp', [
     'login',
     'Home',
+    'Game',
     'ngRoute',
     'ngCookies'
 ])
@@ -24,7 +26,12 @@ angular.module('griddlersWebApp', [
             controller: 'HomeController',
             templateUrl: 'modules/home/views/home.html'
         })
- 
+
+        .when('/game', {
+            controller: 'GameController',
+            templateUrl: 'modules/game/views/game.html',
+        })
+
         .otherwise({ redirectTo: '/login' });
 }])
  
