@@ -26,7 +26,10 @@
                 <tbody>
                 <tr><td>Amitai</td> <td>Human</td></tr>
                 <tr><td>Idushi</td> <td>Computer</td></tr>
-
+                <tr ng-repeat="User in $scope.UserList">
+                    <td data-title="Name">{{User.name}}</td>
+                    <td data-title="Type">{{User.type}}</td>
+                </tr>
                 </tbody>
             </table>
             <button ng-click= "uploadGame()" class="btn btn-info">Go to Game</button>
