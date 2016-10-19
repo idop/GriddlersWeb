@@ -29,7 +29,7 @@ angular.module('griddlersWebApp', [
 
         .when('/game', {
             controller: 'GameController',
-            templateUrl: 'modules/game/views/game.html',
+            templateUrl: 'modules/game/views/game.html'
         })
 
         .otherwise({ redirectTo: '/login' });
