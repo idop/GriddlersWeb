@@ -13,8 +13,6 @@ angular.module('login')
                         .success(function (response) {
                             successCallback(response);
                         }).error(function (response) {
-                        console.log(response);
-                        console.log(response.message)
                         errorCallback(response);
 
                     });
