@@ -9,7 +9,7 @@ angular.module('login')
 
                 service.Login = function (username, playerType, successCallback, errorCallback) {
 
-                    $http.post('/login?username=' + username + '&PlayerType=' + playerType)
+                    $http.post('/login?username=' + username + '&playerType=' + playerType)
                         .success(function (response) {
                             successCallback(response);
                         }).error(function (response) {
