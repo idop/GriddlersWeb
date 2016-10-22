@@ -55,7 +55,7 @@
                                 ng-init="outerIndex = $index">
 
                                 <div class="segment-content"
-                                     ng-class="columnConstraints[outerIndex][$index].isPerfect()? 'perfedct': ''"
+                                     ng-class="columnConstraints[outerIndex][$index].isPerfect? 'perfedct': ''"
                                      ng-repeat="constraint in columnConstraint[$index] track by $index">
                                     {{constraint}}
                                 </div>
