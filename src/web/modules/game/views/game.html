@@ -1,10 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="griddlersWebApp">
 <head>
-    <meta charset="UTF-8">
-    <title>Game</title>
+    <meta content="text/html"; charset="UTF-8">
+    <link rel="icon" href="../../../img/favicon.ico">
+    <title>GriddlersWeb</title>
+
+    <link rel="stylesheet" href="../../../css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../css/gridStyles.css">
+
 </head>
 <body>
+    <div class="row">
+        <!-- Game status -->
+        <div class="col-md-9 text-center" style="margin-bottom: 25px;">
+            <h2>Game status:</h2>
+            <small>{{Game.currentGameStatus}}</small>
+        </div>
+        <div class="col-md-3">
+            <button href="#/home" class="btn-link">Select another game</button>
+            <button href="#/login" class="btn-link">Logout</button>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <!-- info sidebar -->
+                    <div class="col-md-3" style="padding-left: 75px;">
+                        <div>
+                            <h4>Game info:</h4>
+                            <p>Round:{{Game.round}}</p> <!--need to dynamically change this.. -->
+                            <p>Move: {{Game.playerMove}}</p> <!--need to dynamically change this.. -->
+                            <p>Score: {{Game.playerScore}}</p> <!--need to dynamically change this.. -->
+                        </div>
+                        <div>
+                            <h4>Actions:</h4>
+                            <span class="btn-block text-center">
+                                <button class="btn btn-default">BLACK</button>
+                                <button class="btn btn-default">WHITE</button>
+                                <button class="btn btn-default">EMPTY</button>
+                            </span>
+                            <button class="btn btn-warning btn-block">UNDO</button>
+                            <button class="btn btn-danger btn-block">END MOVE</button>
+                        </div>
+                        <div>
+                            <h4>Player list:</h4>
+                            <tbody>
+                            <tr ng-repeat="Player in PlayerList">
+                                <td data-title="Name">{{Player.name}}</td>
+                                <td data-title="Type">{{Player.type}}</td>
+                                <td data-title="Score">{{Player.score}}</td>
+                            </tr>
+                            </tbody>
+                        </div>
+                    </div>
+                    <!-- grid panel -->
+                    <div class="col-md-9" style="background-color: #0f0f0f">
+                        <h2 class="text-center">Game name</h2> <!--need to dynamically change this.. -->
+                        <!--- grid -->
+                        <table class="gridTable">
+                            <!-- column constraints segment -->
+                            <tr>
+                                <th class="top-segment segment">
 
+                                </th>
+                                <th class="top-segment segment"
+                                    ng-repeat="columnConstraint in Game.columnConstraints"
+                                    ng-init="outerIndex = $index">
+
+                                    <div class="segment-content"
+                                         ng-class="Game.perfectColumnConstraints[outerIndex][$index]? 'perfedct': ''"
+                                         ng-repeat="constraint in Game.columnConstraint track by $index">
+                                        {{constraint}}
+                                    </div>
+                                </th>
+                            </tr>
+                            <!-- row constraints segment -->
+                            <tr ng-repeat="row in grid track by $index"
+                                ng-init="outerIndex2=$index">
+
+                                <th class="left-segment segment">
+                                    <div class="left-segment segment"
+                                         ng-class="Game.perfectRowConstraints[outerIndex2][$index]? perfect: ''"
+                                         ng-repeat="constraint in Game.rowConstraints[$index] track by $index">
+                                        {{constraint}}
+                                    </div>
+                                </th>
+
+                                <th ng-repeat="square in row track by $index"
+                                    ng-click="onSquareClicked(square)"
+                                    ng-class="Square.selected? 'selected':'notselected'"
+                                    class="square {{square.color}}">
+                                </th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
-</html>
+
+
+
+

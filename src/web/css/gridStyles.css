@@ -1,0 +1,54 @@
+.segment {
+    cursor: pointer;
+    color: white; }
+.segment:active {
+    box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.8); }
+.segment .segment-content {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    margin: auto; }
+.segment .segment-content.preview {
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+    line-height: 10px; }
+.segment .segment-content.completed {
+    color: black;
+    background: white; }
+.segment.left-segment .segment-content {
+    display: inline-block;
+    float: left;
+    height: 30px; }
+.segment.left-segment .segment-content.preview {
+    height: 10px; }
+.segment.top-segment .segment-content {
+    width: 30px; }
+.segment.top-segment .segment-content.preview {
+    width: 10px;
+    line-height: 10px; }
+
+.gridTable {
+    background: black;
+    border-collapse: separate;
+    border-spacing: 3px 3px; }
+
+
+
+.square {
+    background: white;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    text-align: center; }
+.square:hover {
+    border-color: red }
+.square.black {
+    background: black; }
+.square.white {
+    background: gray; }
+.square.selected {
+    background-color: yellow; }
+.square.preview {
+    width: 10px;
+    height: 10px; }
