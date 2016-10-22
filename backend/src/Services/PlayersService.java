@@ -24,7 +24,6 @@ public class PlayersService extends JsonHttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        response.setContentType(APPLICATION_JSON);
         UserManager userManager = ServletUtils.getUserManager(getServletContext());
         try (PrintWriter out = response.getWriter()) {
             String jsonResponse = gson.toJson(userManager.getUsers());

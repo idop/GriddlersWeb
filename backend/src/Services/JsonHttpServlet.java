@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static constants.Constants.APPLICATION_JSON;
+
 /**
  * Created by ido on 17/10/2016.
  */
@@ -25,12 +27,14 @@ public abstract class JsonHttpServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType(APPLICATION_JSON);
         processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType(APPLICATION_JSON);
         processRequest(request, response);
     }
 

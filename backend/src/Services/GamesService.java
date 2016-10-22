@@ -22,7 +22,7 @@ public class GamesService extends JsonHttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        response.setContentType(APPLICATION_JSON);
+
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
         try (PrintWriter out = response.getWriter()) {
             String jsonResponse = gson.toJson(gameManager.getGamesList());
