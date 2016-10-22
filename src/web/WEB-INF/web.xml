@@ -52,4 +52,13 @@
         <servlet-name>LogoutService</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ConstraintsService</servlet-name>
+        <servlet-class>Services.ConstraintsService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ConstraintsService</servlet-name>
+        <url-pattern>/getConstraints</url-pattern>
+    </servlet-mapping>
 </web-app>
