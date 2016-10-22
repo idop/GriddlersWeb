@@ -1,41 +1,31 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="griddlersWebApp">
-<head>
-    <meta content="text/html"; charset="UTF-8">
-    <link rel="icon" href="../../../img/favicon.ico">
-    <title>GriddlersWeb</title>
-
-    <link rel="stylesheet" href="../../../css/bootstrap/bootstrap.min.css">
-
-</head>
-<div class="container">
-    <div class="jumbotron">
-        <h3>Upload game file to play</h3>
-        <div class="input-group">
-            <input type = "file" file-model = "myFile" accept=".xml"/>
-            <span class="input-group-btn">
-                <button ng-click = "uploadFile()" class="btn btn-info">Upload game</button>
+<div>
+    <h3>Upload game file to play</h3>
+    <div class="input-group">
+        <input type="file" file-model="myFile" accept=".xml"/>
+        <span class="input-group-btn">
+                <button ng-click="uploadFile()" class="btn btn-info">Upload game</button>
             </span>
-        </div>
-        <h3>OR... select game from server</h3>
-        <div class="input-group">
-            <table class="table">
-                <thead class="thead-inverse">
-                <tr><th>Name</th> <th>Type</th></tr>
-                </thead>
-                <tbody>
-                <tr><td>Amitai</td> <td>Human</td></tr>
-                <tr><td>Idushi</td> <td>Computer</td></tr>
-                <tr ng-repeat="User in $scope.UserList">
-                    <td data-title="Name">{{User.name}}</td>
-                    <td data-title="Type">{{User.type}}</td>
-                </tr>
-                </tbody>
-            </table>
-            <button ng-click= "uploadGame()" class="btn btn-info">Go to Game</button>
-        </div>
-        <h3>Or simply quit why don't you...</h3>
-        <p><a href="#/login" class="btn-link">Logout</a></a></p>
     </div>
+    <h3>OR... select game from server</h3>
+    <div class="input-group">
+        <table class="table">
+            <thead class="thead-inverse">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="User in UserList">
+                <td>{{User.name}}</td>
+                <td>{{User.type}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <button ng-click="uploadGame()" class="btn btn-info">Go to Game</button>
+    </div>
+    <h3>Or simply quit why don't you...</h3>
+    <p><a href="#/login" class="btn-link">Logout</a></a></p>
 </div>
+
 

@@ -9,7 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="gameEngine" exported="" />
     <orderEntry type="module" module-name="GriddlersWeb" exported="" />
-    <orderEntry type="library" name="gson-2.1" level="project" />
     <orderEntry type="library" name="Java 6 EE" level="project" />
+    <orderEntry type="library" name="gson-2.1" level="project" />
   </component>
 </module>

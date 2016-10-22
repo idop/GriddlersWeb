@@ -25,5 +25,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="backend" exported="" />
     <orderEntry type="module" module-name="gameEngine" exported="" />
+    <orderEntry type="library" name="gson-2.1" level="project" />
   </component>
 </module>
