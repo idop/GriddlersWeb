@@ -36,6 +36,20 @@
         <servlet-name>UploadGameService</servlet-name>
         <url-pattern>/uploadGame</url-pattern>
     </servlet-mapping>
-
-
+    <servlet>
+        <servlet-name>RegisterToGameService</servlet-name>
+        <servlet-class>Services.RegisterToGameService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterToGameService</servlet-name>
+        <url-pattern>/registerToGame</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>LogoutService</servlet-name>
+        <servlet-class>Services.LogoutService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutService</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
 </web-app>

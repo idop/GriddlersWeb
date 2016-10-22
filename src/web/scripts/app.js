@@ -27,7 +27,7 @@ angular.module('griddlersWebApp', [
             templateUrl: 'modules/home/views/home.html'
         })
 
-        .when('/game', {
+        .when('/game/', {
             controller: 'GameController',
             templateUrl: 'modules/game/views/game.html'
         })

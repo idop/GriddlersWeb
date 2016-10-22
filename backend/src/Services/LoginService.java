@@ -31,11 +31,7 @@ public class LoginService extends JsonHttpServlet {
             if (userManager.isUserExists(usernameFromParameter)) {
                 response.setStatus(401);
                 try (PrintWriter out = response.getWriter()) {
-                    ErrorJsonResponse errorJsonResponse = new ErrorJsonResponse();
-                    errorJsonResponse.message = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
-                    String jsonResponse = gson.toJson(errorJsonResponse);
-                    out.print(jsonResponse);
-                    out.flush();
+                    sendErrorJsonResponse(out,"Username " + usernameFromParameter + " already exists. Please enter a different username.");
                 }
             } else {
                 userManager.addUser(usernameFromParameter, request.getParameter(PLAYERTPYE));

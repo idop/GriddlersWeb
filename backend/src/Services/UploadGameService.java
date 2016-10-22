@@ -43,13 +43,8 @@ public class UploadGameService extends JsonHttpServlet {
         } catch (GameDefinitionsXmlParserException | ServiceException e) {
             response.setStatus(400);
             try (PrintWriter out = response.getWriter()) {
-                ErrorJsonResponse errorJsonResponse = new ErrorJsonResponse();
-                errorJsonResponse.message = e.getMessage();
-                String jsonResponse = gson.toJson(errorJsonResponse);
-                out.print(jsonResponse);
-                out.flush();
+                sendErrorJsonResponse(out, e.getMessage());
             }
-
         }
     }
 }

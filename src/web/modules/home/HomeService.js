@@ -44,5 +44,18 @@ angular.module('Home')
                             errorCallback(response);
                         })
                 };
+
+                service.registerToGame = function (game,successCallback,errorCallback) {
+
+                    $http.post('/registerToGame?username='+$rootScope.globals.currentUser+'&gameTitle=' +game.title)
+                        .success(function (response) {
+                            successCallback(response);
+                        })
+                        .error(function (response) {
+                            errorCallback(response);
+                        })
+                };
+
+
                 return service;
             }])

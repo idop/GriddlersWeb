@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import static constants.Constants.APPLICATION_JSON;
 
@@ -16,8 +17,7 @@ import static constants.Constants.APPLICATION_JSON;
 public abstract class JsonHttpServlet extends HttpServlet {
     protected Gson gson = new Gson();
 
-    protected class ErrorJsonResponse
-    {
+    protected class ErrorJsonResponse {
         public boolean error = true;
         public String message;
     }
@@ -38,7 +38,16 @@ public abstract class JsonHttpServlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    protected class SuccessJsonResponse{
+    protected void sendErrorJsonResponse(PrintWriter out, String message) {
+        ErrorJsonResponse errorJsonResponse = new ErrorJsonResponse();
+        errorJsonResponse.message = message;
+        String jsonResponse = gson.toJson(errorJsonResponse);
+        out.print(jsonResponse);
+        out.flush();
+
+    }
+
+    protected class SuccessJsonResponse {
         public boolean success = true;
     }
 }

@@ -34,5 +34,9 @@ public class UserManager {
     public boolean isUserExists(String username) {
         return users.containsKey(username);
     }
+
+    public User getUser(String username){
+        return users.get(username);
+    }
 }
 
