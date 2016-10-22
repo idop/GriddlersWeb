@@ -34,7 +34,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="Game in GameList" ng-click="selectGame(Game)" ng-class="{'table-active': Game.id === selectedGameId}">
+            <tr ng-repeat="Game in GameList" ng-click="selectGame(Game,$index)" ng-class="{'selected': $index === selectedGameId}">
                 <td>{{Game.title}}</td>
                 <td>{{Game.uploadedBy}}</td>
                 <td>{{Game.totalMoves}}</td>

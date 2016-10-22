@@ -4,7 +4,7 @@ angular.module('Home')
 
     .controller('HomeController',
         ['$scope', '$rootScope', '$location', 'HomeService',
-            function ($scope, $location, $rootScope, HomeService) {
+            function ($scope, $rootScope, $location, HomeService) {
                 $scope.UserList = [];
 
                 $scope.GameList = [];
@@ -26,7 +26,7 @@ angular.module('Home')
                 };
 
                 function onChooseGameSuccess(response) {
-                    $location.path('/game?title=' + $scope.selectedGame.title);
+                    $location.path('/game').search('title', $scope.selectedGame.title);
                 }
 
                 function onChooseGameError(response) {
@@ -59,10 +59,11 @@ angular.module('Home')
                     getPageResources();
                     $scope.pageRefrshInterval = setInterval(getPageResources, 2000);
                 }
+
                 $scope.selectedGameId = null;
-                $scope.selectGame = function (game,id) {
+                $scope.selectGame = function (game, id) {
                     $scope.selectedGame = game;
-                    if (game == null || game == undefined){
+                    if (game == null || game == undefined) {
                         $scope.isGameNotSelected = true
                         $scope.selectedGameId = null;
                     } else {
