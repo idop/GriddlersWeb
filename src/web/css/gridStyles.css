@@ -14,7 +14,8 @@
     font-size: 10px;
     line-height: 10px; }
 .segment .segment-content.completed {
-    color: black;
+    color: lightgray;
+    text-decoration: line-through;
     background: white; }
 .segment.left-segment .segment-content {
     display: inline-block;
