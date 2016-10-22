@@ -20,6 +20,8 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Scanner;
 
+import static constants.Constants.USERNAME;
+
 /**
  * Created by amitaihandler on 10/19/16.
  */
@@ -36,11 +38,10 @@ public class UploadGameService extends JsonHttpServlet {
             GameBoardXmlParser gameBoardXmlParser = new GameBoardXmlParser(filePart.getInputStream());
             Game game = new Game(gameBoardXmlParser);
             GameManager gameManager = ServletUtils.getGameManager(getServletContext());
-
-            gameManager.addGame(game);
+            gameManager.addGame(game, request.getParameter(USERNAME));
         }
         catch (GameDefinitionsXmlParserException e) {
-
+            System.out.println(e.getMessage());
         }
 
     }

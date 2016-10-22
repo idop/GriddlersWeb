@@ -24,9 +24,9 @@ public class GameManager {
         return gamesInfo.values().stream().collect(Collectors.toList());
     }
 
-    public void addGame(Game game) {
+    public void addGame(Game game, String username) {
         games.put(game.getGameTitle(), game);
-        gamesInfo.put(game.getGameTitle(), new GameInfo(game));
+        gamesInfo.put(game.getGameTitle(), new GameInfo(game, username));
     }
 
     public boolean isGameExists(String gameTitle) {

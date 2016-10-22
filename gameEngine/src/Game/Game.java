@@ -31,6 +31,16 @@ public class Game {
     private boolean gameEnded;
     private long startTime;
     private int totalMoves;
+    public int rows;
+    public int columns;
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
 
     public String getGameTitle() {
         return gameTitle;
@@ -43,16 +53,19 @@ public class Game {
     public Game(GameBoardXmlParser gameBoardXmlParser) {
         currentRound = 1;
         gameType = gameBoardXmlParser.getGameType();
+        rows = gameBoardXmlParser.getRows();
+        columns = gameBoardXmlParser.getColumns();
         rowConstraints = gameBoardXmlParser.getRowConstraints();
         columnConstraints = gameBoardXmlParser.getColumnConstraints();
         solutionBoard = gameBoardXmlParser.getSolutionBoard();
-        maxColumnConstraints = getMaxConstraints(gameBoardXmlParser.getColumns(), this.columnConstraints);
-        maxRowConstraints = getMaxConstraints(gameBoardXmlParser.getRows(), this.rowConstraints);
+        maxColumnConstraints = getMaxConstraints(columns, this.columnConstraints);
+        maxRowConstraints = getMaxConstraints(rows, this.rowConstraints);
         startTime = System.currentTimeMillis();
         numberOfPlayers = gameBoardXmlParser.getTotalPlayers();
         players = new ArrayList<>(numberOfPlayers);
         totalMoves = gameBoardXmlParser.getTotalMoves();
         gameTitle = gameBoardXmlParser.getGameTitle();
+
     }
 
     public void addPlayer(String playerName , PlayerType playerType){

@@ -26,14 +26,18 @@
             <thead class="thead-inverse">
             <tr>
                 <th>Title</th>
-                <th>Number Of Moves</th>
+                <th>Uploaded By</th>
+                <th>Rounds</th>
+                <th>Size</th>
                 <th>Players</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="Game in GameList">
                 <td>{{Game.title}}</td>
+                <td>{{Game.uploadedBy}}</td>
                 <td>{{Game.totalMoves}}</td>
+                <td>{{Game.rows}}X{{Game.columns}}</td>
                 <td>{{Game.numberOfRegisteredPlayers}}/{{Game.numberOfPlayers}}</td>
             </tr>
             </tbody>

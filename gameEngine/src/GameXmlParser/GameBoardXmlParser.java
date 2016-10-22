@@ -242,7 +242,7 @@ public class GameBoardXmlParser {
     private void extractGameType() throws GameDefinitionsXmlParserException {
         try {
             gametype = GameType.valueOf(gameDescriptor.getGameType());
-            if (gametype != GameType.DynamicMultiPlayers) {
+            if (gametype != GameType.DynamicMultiPlayer) {
                 throw new GameDefinitionsXmlParserException("Game Type must be DynamicMultiPlayers");
             }
         } catch (Exception e) {

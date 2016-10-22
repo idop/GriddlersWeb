@@ -31,7 +31,7 @@ angular.module('Home')
                     var fd = new FormData();
                     fd.append('file', file);
 
-                    $http.post('/uploadGame', fd, {
+                    $http.post('/uploadGame?username='+$rootScope.globals.currentUser, fd, {
                         transformRequest: angular.identity,
                         headers: {'Content-Type': undefined}
                     })
