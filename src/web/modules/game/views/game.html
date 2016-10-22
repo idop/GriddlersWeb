@@ -29,13 +29,15 @@
                     </div>
                     <div>
                         <h4>Player list:</h4>
-                        <tbody>
-                        <tr ng-repeat="Player in PlayerList">
-                            <td>{{Player.name}}</td>
-                            <td data-title="Type">{{Player.type}}</td>
-                            <td data-title="Score">{{Player.score}}</td>
-                        </tr>
-                        </tbody>
+                        <table class="table">
+                            <tbody>
+                            <tr ng-repeat="Player in PlayerList">
+                                <td>{{Player.name}}</td>
+                                <td>{{Player.type}}</td>
+                                <td>{{Player.score}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <!-- grid panel -->

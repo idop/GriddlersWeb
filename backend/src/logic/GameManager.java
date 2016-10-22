@@ -48,4 +48,8 @@ public class GameManager {
         gameInfo.registerPlayer();
         game.addPlayer(user.getUsername(),user.getPlayerType());
     }
+
+    public Game getGame(String gameTitle) {
+        return games.get(gameTitle);
+    }
 }

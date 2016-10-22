@@ -6,29 +6,50 @@
 angular.module('Game')
 
     .controller('GameController',
-        ['$scope',
-            function ($scope) {
+        ['$scope', '$rootScope', '$location', 'GameService',
+            function ($scope, $rootScope, $location, GameService) {
+                $scope.gameTitle = ($location.search()).title;
                 $scope.Game = [];
                 $scope.PlayerList = [];
+                $scope.Constraints = [];
                 $scope.rowConstraints = [];
                 $scope.columnConstraints = [];
 
                 $scope.Game = {
-                    round :'10',
-                    playerMove : '1',
+                    round: '10',
+                    playerMove: '1',
                     playerScore: '98',
                     currentGameStatus: 'The world is going to shits..'
                 };
 
                 $scope.PlayerList = [
-                    { name: "Idushi", type: "Human", score: "37"},
-                    { name: "Amitai", type: "Human", score: "98"},
-                    { name: "HAL", type: "Computer", score: "69"}
-                ]
+                    {name: "Idushi", type: "Human", score: "37"},
+                    {name: "Amitai", type: "Human", score: "98"},
+                    {name: "HAL", type: "Computer", score: "69"}
+                ];
 
-                $scope.rowConstraints = [
+                function getPageResources() {
+                    GameService.getConstraints($scope.gameTitle, onGetConstraintsSuccess, onGetConstraintsError);
+                }
 
-                ]
+                function onGetConstraintsSuccess(response) {
+                   //$scope.Constraints = response;
+                    $scope.rowConstraints = response["row"];
+                    $scope.columnConstraints = response["column"];
+                    console.log($scope.rowConstraints);
+                    console.log($scope.columnConstraints);
+                }
 
+                function onGetConstraintsError(response) {
+                }
+
+
+                function init() {
+                    getPageResources();
+
+                    $scope.pageRefrshInterval = setInterval(getPageResources, 2000);
+                }
+
+                init();
 
             }]);
