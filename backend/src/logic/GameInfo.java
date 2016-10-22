@@ -23,9 +23,9 @@ public class GameInfo {
         this.rows = game.getRows();
     }
 
-    public void registerPlayer() throws Exception {
+    public void registerPlayer() throws ServiceException {
         if (numberOfRegisteredPlayers >= numberOfPlayers) {
-            throw new Exception("Game already have its maximum number of players allowed");
+            throw new ServiceException("Game already have its maximum number of players allowed");
         }
         numberOfRegisteredPlayers++;
     }

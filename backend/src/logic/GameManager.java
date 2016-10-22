@@ -24,18 +24,22 @@ public class GameManager {
         return gamesInfo.values().stream().collect(Collectors.toList());
     }
 
-    public void addGame(Game game, String username) {
-        games.put(game.getGameTitle(), game);
-        gamesInfo.put(game.getGameTitle(), new GameInfo(game, username));
+    public void addGame(Game game, String username) throws ServiceException {
+        String title = game.getGameTitle();
+        if(isGameExists(title)){
+            throw new ServiceException(String.format("A game With The same Title: %s  already exists",title));
+        }
+        games.put(title, game);
+        gamesInfo.put(title, new GameInfo(game, username));
     }
 
     public boolean isGameExists(String gameTitle) {
         return gamesInfo.containsKey(gameTitle);
     }
 
-    public void registerUserToAGame(String gameTitle, User user) throws Exception {
+    public void registerUserToAGame(String gameTitle, User user) throws ServiceException {
         if(!isGameExists(gameTitle)){
-            throw new Exception("Provided Game Does not exists");
+            throw new ServiceException("Provided Game Does not exists");
         }
 
         GameInfo gameInfo = gamesInfo.get(gameTitle);

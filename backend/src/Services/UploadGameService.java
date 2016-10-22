@@ -4,6 +4,7 @@ import Game.Game;
 import GameXmlParser.GameBoardXmlParser;
 import GameXmlParser.GameDefinitionsXmlParserException;
 import logic.GameManager;
+import logic.ServiceException;
 import logic.UserManager;
 import utils.ServletUtils;
 
@@ -39,10 +40,16 @@ public class UploadGameService extends JsonHttpServlet {
             Game game = new Game(gameBoardXmlParser);
             GameManager gameManager = ServletUtils.getGameManager(getServletContext());
             gameManager.addGame(game, request.getParameter(USERNAME));
-        }
-        catch (GameDefinitionsXmlParserException e) {
-            System.out.println(e.getMessage());
-        }
+        } catch (GameDefinitionsXmlParserException | ServiceException e) {
+            response.setStatus(400);
+            try (PrintWriter out = response.getWriter()) {
+                ErrorJsonResponse errorJsonResponse = new ErrorJsonResponse();
+                errorJsonResponse.message = e.getMessage();
+                String jsonResponse = gson.toJson(errorJsonResponse);
+                out.print(jsonResponse);
+                out.flush();
+            }
 
+        }
     }
 }

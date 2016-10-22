@@ -16,7 +16,7 @@ angular.module('Home')
                     console.log('file is ' );
                     console.dir(file);
 
-                    HomeService.uploadGame(file);
+                    HomeService.uploadGame(file,onFileUploadSuccess, onFileUploadError);
                 };
 
                 $scope.chooseGame = function () {
@@ -28,6 +28,12 @@ angular.module('Home')
                     HomeService.getGameList(getGameListCallBack);
                 }
 
+                function onFileUploadSuccess(){
+                    $scope.error =null;
+                }
+                function onFileUploadError(response){
+                    $scope.error = response.message;
+                }
 
                 function getUserListCallBack(response) {
                     $scope.UserList = response;

@@ -27,7 +27,7 @@ angular.module('Home')
                         })
                 };
 
-                service.uploadGame = function (file) {
+                service.uploadGame = function (file,successCallback,errorCallback) {
                     var fd = new FormData();
                     fd.append('file', file);
 
@@ -37,9 +37,11 @@ angular.module('Home')
                     })
 
                         .success(function () {
+                            successCallback();
                         })
 
-                        .error(function () {
+                        .error(function (response) {
+                            errorCallback(response);
                         })
                 };
                 return service;

@@ -6,6 +6,7 @@ import GameXmlParser.Schema.Constraint;
 import GameXmlParser.Schema.Constraints;
 import GameXmlParser.Schema.GameType;
 import GameXmlParser.Schema.Generated.*;
+import com.sun.deploy.util.StringUtils;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -93,8 +94,17 @@ public class GameBoardXmlParser {
     private void extractDynamicMultiPlayersInfo() throws GameDefinitionsXmlParserException {
         try {
             totalMoves = Integer.parseInt(gameDescriptor.getDynamicMultiPlayers().getTotalmoves());
+            if(totalMoves <=0) {
+                throw new GameDefinitionsXmlParserException("Total Moves must be Greater then 1");
+            }
             gameTitle = gameDescriptor.getDynamicMultiPlayers().getGametitle();
+            if(gameTitle == null || gameTitle.trim().isEmpty() || gameTitle.equals("")) {
+                throw new GameDefinitionsXmlParserException("Total Players must be Greater then 1");
+            }
             totalPlayers = Integer.parseInt(gameDescriptor.getDynamicMultiPlayers().getTotalPlayers());
+            if(totalPlayers <=0) {
+                throw new GameDefinitionsXmlParserException("Total Players must be Greater then 1");
+            }
         } catch (Exception e) {
             throw new GameDefinitionsXmlParserException(e.getMessage());
         }
