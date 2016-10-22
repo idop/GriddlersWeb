@@ -28,4 +28,14 @@
         <servlet-name>GamesService</servlet-name>
         <url-pattern>/games</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UploadGameService</servlet-name>
+        <servlet-class>Services.UploadGameService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadGameService</servlet-name>
+        <url-pattern>/uploadGame</url-pattern>
+    </servlet-mapping>
+
+
 </web-app>

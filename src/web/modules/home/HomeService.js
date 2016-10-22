@@ -26,5 +26,21 @@ angular.module('Home')
                             successCallback(response);
                         })
                 };
+
+                service.uploadGame = function (file) {
+                    var fd = new FormData();
+                    fd.append('file', file);
+
+                    $http.post('/uploadGame', fd, {
+                        transformRequest: angular.identity,
+                        headers: {'Content-Type': undefined}
+                    })
+
+                        .success(function () {
+                        })
+
+                        .error(function () {
+                        })
+                };
                 return service;
             }])

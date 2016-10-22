@@ -45,7 +45,6 @@ public class GameBoardXmlParser {
     private static final int minDimension = 10;
     private static final String NOT_ALL_CONSTRAINTS_ARE_DEFIND = "Not All Constraints(Slices) are Defined";
     private GameDescriptor gameDescriptor;
-    private File gameDefinitionsXmlFile;
     private GameType gametype;
     private SolutionBoard solutionBoard;
     private Constraints[] rowConstraints;
@@ -78,13 +77,12 @@ public class GameBoardXmlParser {
         return new ArrayList<>(Arrays.asList(columnConstraints));
     }
 
-    public GameBoardXmlParser(String gameDefinitionsXmlFileName) throws GameDefinitionsXmlParserException {
-        gameDefinitionsXmlFile = new File(gameDefinitionsXmlFileName);
-        parseXml();
+    public GameBoardXmlParser(InputStream gameDefinitionsXmlFile) throws GameDefinitionsXmlParserException {
+        parseXml(gameDefinitionsXmlFile);
     }
 
-    private void parseXml() throws GameDefinitionsXmlParserException {
-        parseGameDescriptor();
+    private void parseXml(InputStream gameDefinitionsXmlFile) throws GameDefinitionsXmlParserException {
+        parseGameDescriptor(gameDefinitionsXmlFile);
         extractGameType();
         extractBoardDimensions();
         extractSlices();
@@ -252,14 +250,11 @@ public class GameBoardXmlParser {
         }
     }
 
-    private void parseGameDescriptor() throws GameDefinitionsXmlParserException {
+    private void parseGameDescriptor(InputStream gameDefinitionsXmlFile) throws GameDefinitionsXmlParserException {
         try {
-            gameDescriptor = GameBoardXmlParser.deserializeFrom(new FileInputStream(gameDefinitionsXmlFile));
+            gameDescriptor = GameBoardXmlParser.deserializeFrom(gameDefinitionsXmlFile);
         } catch (JAXBException e) {
             throw new GameDefinitionsXmlParserException(illegalXmlFileMessage, e);
-        } catch (FileNotFoundException e) {
-
-            throw new GameDefinitionsXmlParserException(e.getMessage(), e);
         }
     }
 

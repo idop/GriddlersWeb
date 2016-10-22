@@ -11,11 +11,16 @@ angular.module('Home')
                 $scope.pageRefrshInterval = 0;
 
                 $scope.uploadFile = function () {
-                    //  UploadFileService.UploadFile();
+                    var file = $scope.myFile;
+
+                    console.log('file is ' );
+                    console.dir(file);
+
+                    HomeService.uploadGame(file);
                 };
 
-                $scope.uploadGame = function () {
-                    //   LoadGameService.UploadGame();
+                $scope.chooseGame = function () {
+                    //   HomeService.UploadGame();
                 };
 
                 function getPageResources() {
