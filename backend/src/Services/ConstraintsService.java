@@ -33,8 +33,8 @@ public class ConstraintsService extends JsonHttpServlet {
         ;
         Map<String, Constraint[][]> constraints = new HashMap<>();
 
-        constraints.put(ROW, createConstraintMatrix(game.getRowConstraints(), game.getMaxRowConstraints(), ROW));
-        constraints.put(COLUMN, createConstraintMatrix(game.getColumnConstraints(), game.getMaxColumnConstraints(), COLUMN));
+        constraints.put(ROW, createRowConstraintMatrix(game.getRowConstraints(), game.getMaxRowConstraints()));
+        constraints.put(COLUMN, createColumnConstraintMatrix(game.getColumnConstraints(), game.getMaxColumnConstraints()));
         response.setStatus(200);
         try (PrintWriter out = response.getWriter()) {
             String jsonResponse = gson.toJson(constraints);
@@ -44,16 +44,35 @@ public class ConstraintsService extends JsonHttpServlet {
 
     }
 
-    private Constraint[][] createConstraintMatrix(List<Constraints> constraints, int maxNumberOfConstraints, String type) {
-        Constraint[][] res;
-        if (type == ROW) {
-            res = new Constraint[constraints.size()][maxNumberOfConstraints];
-        } else {
-            res = new Constraint[maxNumberOfConstraints][constraints.size()];
+    private Constraint[][] createRowConstraintMatrix(List<Constraints> constraints, int maxNumberOfConstraints) {
+        Constraint[][] res = new Constraint[constraints.size()][maxNumberOfConstraints];
+
+        for (int i = 0; i < constraints.size(); ++i) {
+            int k = 0;
+            Constraints currentConstraints = constraints.get(i);
+            for (int j = 0; j < maxNumberOfConstraints; ++j) {
+                System.out.println(String.format("i:%d j:%d k:%d currentConstraints.size():%d maxNumberOfConstraints - 1 - j:%d",i,j,k,currentConstraints.size(),maxNumberOfConstraints - 1 - j));
+                if ((maxNumberOfConstraints - j) < currentConstraints.size()) {
+                    res[i][j] = currentConstraints.getConstraint(k);
+                    ++k;
+                }
+            }
         }
 
-        for (int i = res.length - 1; i >= 0; --i) {
-            for (int j = 0; j < res[i].length; ++j) {
+        return res;
+    }
+
+    private Constraint[][] createColumnConstraintMatrix(List<Constraints> constraints, int maxNumberOfConstraints) {
+        Constraint[][] res = new Constraint[maxNumberOfConstraints][constraints.size()];
+
+        for (int i = 0; i < constraints.size(); ++i) {
+            Constraints currentConstraints = constraints.get(i);
+            int k = 0;
+            for (int j = 0; j < maxNumberOfConstraints; ++j) {
+                if ((maxNumberOfConstraints - j) < currentConstraints.size()) {
+                    res[j][i] = currentConstraints.getConstraint(k);
+                    ++k;
+                }
             }
         }
 
