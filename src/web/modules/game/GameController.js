@@ -11,7 +11,6 @@ angular.module('Game')
                 $scope.gameTitle = ($location.search()).title;
                 $scope.Game = [];
                 $scope.PlayerList = [];
-                $scope.Constraints = [];
                 $scope.rowConstraints = [];
                 $scope.columnConstraints = [];
 
@@ -33,7 +32,6 @@ angular.module('Game')
                 }
 
                 function onGetConstraintsSuccess(response) {
-                   //$scope.Constraints = response;
                     $scope.rowConstraints = response["row"];
                     $scope.columnConstraints = response["column"];
                     console.log($scope.rowConstraints);
