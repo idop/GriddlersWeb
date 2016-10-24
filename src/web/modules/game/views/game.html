@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <div class="row">
                 <!-- info sidebar -->
-                <div class="col-md-3">
+                <div class="col-md-3" style="padding-left: 75px;">
                     <div>
                         <h4>Game info:</h4>
                         <p>Round:{{Game.round}}</p>
@@ -55,7 +55,7 @@
                                 ng-init="outerIndex = $index">
 
                                 <div class="segment-content"
-                                     <!--ng-class="columnConstraints[outerIndex][$index].isPerfect()? 'perfedct': ''"-->
+                                     ng-class="columnConstraints[outerIndex][$index].isPerfect? 'perfedct': ''"
                                      ng-repeat="constraint in columnConstraint[$index] track by $index">
                                     {{constraint}}
                                 </div>
