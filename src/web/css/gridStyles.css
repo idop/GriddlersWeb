@@ -1,6 +1,7 @@
 .segment {
     cursor: pointer;
-    color: white; }
+    color: white;
+    display: inline-block}
 .segment:active {
     box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.8); }
 .segment .segment-content {
@@ -13,7 +14,7 @@
     height: 10px;
     font-size: 10px;
     line-height: 10px; }
-.segment .segment-content.completed {
+.segment .segment-content.perfect {
     color: lightgray;
     text-decoration: line-through;
     background: white; }

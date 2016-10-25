@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <div class="row">
                 <!-- info sidebar -->
-                <div class="col-md-3" style="padding-left: 75px;">
+                <div class="col-md-3";">
                     <div>
                         <h4>Game info:</h4>
                         <p>Round:{{Game.round}}</p>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <!-- grid panel -->
-                <div class="col-md-9" style="background-color: #0f0f0f">
+                <div class="col-md-9 grid" style="background-color: #0f0f0f">
                     <h2 class="text-center">Game name</h2> <!--need to dynamically change this.. -->
                     <!--- grid -->
                     <table class="gridTable">
@@ -51,35 +51,41 @@
 
                             </th>
                             <th class="top-segment segment"
-                                ng-repeat="columnConstraint in columnConstraints"
-                                ng-init="outerIndex = $index">
+                                ng-repeat="columnConstraint in columnConstraints track by $index"
+                                ng-init="outerIndex = $index"
+                                ng-click="selectColumn($index)">
+
 
                                 <div class="segment-content"
                                      ng-class="columnConstraints[outerIndex][$index].isPerfect? 'perfedct': ''"
-                                     ng-repeat="constraint in columnConstraint[$index] track by $index">
-                                    {{constraint}}
+                                     ng-repeat="constraint in columnConstraint track by $index"
+                                    style="display: inline-block">
+                                    0
                                 </div>
                             </th>
                         </tr>
                         <!-- row constraints segment -->
-                        <tr ng-repeat="row in grid track by $index"
+                        <tr ng-repeat="row in rowConstraints track by $index"
                             ng-init="outerIndex2=$index">
 
-                            <th class="left-segment segment">
+                            <th class="left-segment segment"
+                                ng-click="selectRow($index)">
+
                                 <div class="left-segment segment"
-                                     ng-class="rowConstraints[outerIndex2][$index].isPerfect()? perfect: ''"
-                                     ng-repeat="constraint in rowConstraints[$index] track by $index">
-                                    {{constraint}}
+                                     ng-class="rowConstraints[outerIndex2][$index].isPerfect? perfect: ''"
+                                     ng-repeat="constraint in rowConstraints[$index] track by $index"
+                                    style="display: inline-block">
+                                    1
                                 </div>
                             </th>
 
                             <th ng-repeat="square in row track by $index"
                                 ng-click="onSquareClicked(square)"
-                                ng-class="Square.selected? 'selected':'notselected'"
+                                ng-class="square.selected? 'selected':'notselected'"
                                 class="square {{square.color}}">
                             </th>
                         </tr>
-                    </table>
+                    </table>§
                 </div>
             </div>
         </div>
