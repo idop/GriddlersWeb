@@ -33,7 +33,9 @@
 .gridTable {
     background: black;
     border-collapse: separate;
-    border-spacing: 3px 3px; }
+    border-spacing: 3px 3px;
+    margin: 30px;
+    text-align: center;}
 
 
 
