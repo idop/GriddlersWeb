@@ -20,5 +20,17 @@ angular.module('Game')
                     });
 
                 };
+
+                service.getGameInfo = function (gameTitle, successCallback, errorCallback) {
+
+                    $http.get('/getActiveGameInfo?gameTitle=' + gameTitle)
+                        .success(function (response) {
+                            successCallback(response);
+                        }).error(function (response) {
+                        errorCallback(response);
+                    });
+
+                };
+
                 return service;
             }]);

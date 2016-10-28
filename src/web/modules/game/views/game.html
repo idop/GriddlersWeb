@@ -2,7 +2,7 @@
     <!-- Game status -->
     <div class="col-md-9 text-center" style="margin-bottom: 25px;">
         <h2>Game status:</h2>
-        <small>{{Game.currentGameStatus}}</small>
+        <small>{{currentGameStatus}}</small>
     </div>
     <div class="col-md-3">
         <button href="#/home" class="btn-link">Select another game</button>
@@ -12,12 +12,11 @@
         <div class="col-md-12">
             <div class="row">
                 <!-- info sidebar -->
-                <div class="col-md-3";">
+                <div class="col-md-3">
                     <div>
                         <h4>Game info:</h4>
-                        <p>Round:{{Game.round}}</p>
-                        <p>Move: {{Game.playerMove}}</p>
-                        <p>Score: {{Game.playerScore}}</p>
+                        <p>Round:{{Game.round}}/{{totalRounds}}</p>
+                        <p>Move: {{Game.playerMove}}/2</p>
                     </div>
                     <div>
                         <h4>Actions:</h4>
@@ -31,10 +30,10 @@
                         <h4>Player list:</h4>
                         <table class="table">
                             <tbody>
-                            <tr ng-repeat="Player in PlayerList">
-                                <td>{{Player.name}}</td>
-                                <td>{{Player.type}}</td>
-                                <td>{{Player.score}}</td>
+                            <tr ng-repeat="player in playerList">
+                                <td>{{player.name}}</td>
+                                <td>{{player.type}}</td>
+                                <td>{{player.playerScore}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -42,7 +41,7 @@
                 </div>
                 <!-- grid panel -->
                 <div class="col-md-9 grid" style="background-color: #0f0f0f; text-align: center">
-                    <h2 class="text-center">Game name</h2> <!--need to dynamically change this.. -->
+                    <h2 class="text-center">{{gameTitle}}</h2> <!--need to dynamically change this.. -->
                     <!--- grid -->
                     <table class="gridTable">
                         <!-- column constraints segment -->

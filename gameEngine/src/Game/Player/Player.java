@@ -25,9 +25,6 @@ public class Player {
     private GameBoard gameBoard;
     private boolean playerWon = false;
     private PlayerGameStatistics statistics;
-    private int turnNumber = 1;
-
-
 
     public Player(String name, PlayerType playerType, GameBoard gameBoard) {
         this.name = name;
@@ -84,7 +81,6 @@ public class Player {
 
     public void undoTurn(SolutionBoard solution) throws PlayerTurnException {
         revertStep(solution, undoList, undoExceptionMessage);
-        turnNumber--;
     }
 
     public BoardSquare[][] getBoard() {
@@ -92,8 +88,6 @@ public class Player {
     }
 
     public void doTurn(PlayerTurn turn, SolutionBoard solution) {
-        turn.setTurnNumber(turnNumber);
-        turnNumber++;
         undoList.add(doActualTrun(turn, solution));
     }
 

@@ -28,11 +28,14 @@ public class Game {
     private int maxRowConstraints;
     private boolean playerWon = false;
     private int currentRound;
-    private boolean gameEnded;
+    private boolean isGameEnded;
     private long startTime;
-    private int totalMoves;
-    public int rows;
-    public int columns;
+    private int totalRounds;
+    private int rows;
+    private int columns;
+    private String status;
+    private int moves;
+    private boolean isGameStarted = false;
 
     public int getRows() {
         return rows;
@@ -63,17 +66,23 @@ public class Game {
         startTime = System.currentTimeMillis();
         numberOfPlayers = gameBoardXmlParser.getTotalPlayers();
         players = new ArrayList<>(numberOfPlayers);
-        totalMoves = gameBoardXmlParser.getTotalMoves();
+        totalRounds = gameBoardXmlParser.getTotalMoves();
         gameTitle = gameBoardXmlParser.getGameTitle();
+        status = "Waiting for other Players";
+        moves = 1;
 
     }
 
-    public void addPlayer(String playerName , PlayerType playerType){
-
+    public void addPlayer(String playerName, PlayerType playerType) {
+        players.add(new Player(playerName, playerType, new GameBoard(rows, columns)));
+        if (players.size() + 1 == numberOfPlayers) {
+            status = "Game started current Player is: " + players.get(currentPlayerId).getName();
+            isGameStarted = true;
+        }
     }
 
-    public int getTotalmoves() {
-        return totalMoves;
+    public int getTotalRounds() {
+        return totalRounds;
     }
 
     public int getCurrentRound() {
@@ -81,7 +90,7 @@ public class Game {
     }
 
     public boolean isGameEnded() {
-        return gameEnded;
+        return isGameEnded;
     }
 
     public List<Player> getPlayers() {
@@ -146,16 +155,24 @@ public class Game {
     }
 
     public void doPlayerTurn(PlayerTurn turn) {
-        Player currentPlayer = players.get(currentPlayerId);
-        currentPlayer.doTurn(turn, solutionBoard);
-        setPerfectConstraints();
-        playerWon = gameEnded = currentPlayer.checkIfPlayerWon();
+        if (moves <= 2) {
+            Player currentPlayer = players.get(currentPlayerId);
+            currentPlayer.doTurn(turn, solutionBoard);
+            setPerfectConstraints();
+            playerWon = isGameEnded = currentPlayer.checkIfPlayerWon();
+            if(playerWon){
+                status = String.format("Player %s won!!!!",players.get(currentPlayerId).getName());
+            }
+            ++moves;
+        }
     }
 
 
     public void undoTurn() throws PlayerTurnException {
         players.get(currentPlayerId).undoTurn(solutionBoard);
         setPerfectConstraints();
+        --moves;
+        moves = Math.max(1, moves);
     }
 
     public boolean checkIfPlayerWon() {
@@ -176,14 +193,57 @@ public class Game {
         int newRoundNumber;
         if (nextPlayerId == 0) {
             newRoundNumber = currentRound + 1;
-            if (newRoundNumber > totalMoves) {
-                gameEnded = true;
+            if (newRoundNumber > totalRounds) {
+                isGameEnded = true;
+                status = "Game ended due to all player exceeded the maximum number of rounds!! no player won :(";
             } else {
                 currentRound = newRoundNumber;
             }
         }
+    }
 
+    public ActiveGameInfo getActiveGameInfo() {
+        ActiveGamePlayerInfo[] playersInfo = new ActiveGamePlayerInfo[players.size()];
 
+        for (int i = 0; i < players.size(); ++i) {
+            Player currentPlayer = players.get(i);
+            playersInfo[i] = new ActiveGamePlayerInfo(currentPlayer.getName(), currentPlayer.getPlayerType(), currentPlayer.getScoreString());
+        }
 
+        return new ActiveGameInfo(totalRounds, currentPlayerId, status, currentRound, moves, playersInfo, isGameStarted, isGameEnded);
+    }
+
+    public class ActiveGameInfo {
+        private int currentPlayerId;
+        private String currentGameStatus;
+        private int round;
+        private int moves;
+        private int totalRounds;
+        private boolean isGameStarted;
+        private boolean isGameEnded;
+        ActiveGamePlayerInfo[] playersInfo;
+
+        public ActiveGameInfo(int toatlRounds, int currentPlayerId, String currentGameStatus, int round, int moves, ActiveGamePlayerInfo[] playersInfo, boolean isGameStarted, boolean isGameEnded) {
+            this.currentPlayerId = currentPlayerId;
+            this.currentGameStatus = currentGameStatus;
+            this.round = round;
+            this.totalRounds = toatlRounds;
+            this.moves = moves;
+            this.playersInfo = playersInfo;
+            this.isGameStarted = isGameStarted;
+            this.isGameEnded = isGameEnded;
+        }
+    }
+
+    public class ActiveGamePlayerInfo {
+        private String name;
+        private PlayerType type;
+        private String playerScore;
+
+        public ActiveGamePlayerInfo(String name, PlayerType type, String playerScore) {
+            this.name = name;
+            this.type = type;
+            this.playerScore = playerScore;
+        }
     }
 }

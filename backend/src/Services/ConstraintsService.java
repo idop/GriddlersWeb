@@ -30,7 +30,6 @@ public class ConstraintsService extends JsonHttpServlet {
         String gameTitle = request.getParameter(GAMETITLE);
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
         Game game = gameManager.getGame(gameTitle);
-        ;
         Map<String, Constraint[][]> constraints = new HashMap<>();
 
         constraints.put(ROW, createRowConstraintMatrix(game.getRowConstraints(), game.getMaxRowConstraints()));

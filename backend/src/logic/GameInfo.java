@@ -16,7 +16,7 @@ public class GameInfo {
 
     public GameInfo(Game game, String uploadedBy) {
         this.title = game.getGameTitle();
-        this.totalMoves = game.getTotalmoves();
+        this.totalMoves = game.getTotalRounds();
         this.numberOfPlayers = game.getNumberOfPlayers();
         this.uploadedBy = uploadedBy;
         this.columns = game.getColumns();
