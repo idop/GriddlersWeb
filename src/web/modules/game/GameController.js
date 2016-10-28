@@ -9,13 +9,13 @@ angular.module('Game')
         ['$scope', '$rootScope', '$location', 'GameService',
             function ($scope, $rootScope, $location, GameService) {
                 $scope.gameTitle = ($location.search()).title;
-                $scope.Game = [];
                 $scope.PlayerList = [];
                 $scope.rowConstraints = [];
                 $scope.columnConstraints = [];
                 $scope.playerId = null;
                 $scope.totalRounds = null;
                 $scope.Game = {};
+                $scope.currentGameStatus = null;
                 $scope.currentPlayerId = null;
                 $scope.playerList = [];
                 $scope.isGameStarted = false;
@@ -36,23 +36,21 @@ angular.module('Game')
                 }
 
                 function onGetGameInfoSuccess(response) {
-                    console.log(response["playersInfo"]);
                     $scope.playerList = response["playersInfo"];
-                    for (var i = 0; i < playerList.length; ++i) {
-                        if(playerList)
-                        if ($rootScope.globals.currentUser == playerList[i].name) {
+                    for (var i = 0; i < $scope.playerList.length; ++i) {
+                        if ($rootScope.globals.currentUser == $scope.playerList[i].name) {
                             $scope.playerId = i;
                         }
                         $scope.Game.round = response["round"];
                         $scope.Game.playerMove = response["moves"];
-                        $scope.Game.currentGameStatus = response["currentGameStatus"];
+                        $scope.currentGameStatus = response["currentGameStatus"];
                         $scope.totalRounds = response["totalRounds"];
                         $scope.currentPlayerId = response["currentPlayerId"];
                         $scope.isGameStarted = response["isGameStarted"];
                         $scope.isGameEnded = response["isGameEnded"];
                     }
 
-                    console.log( $scope.playerId);
+                    console.log($scope.playerId);
                 }
 
                 function onGetGameInfoError(response) {
