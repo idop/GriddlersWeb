@@ -49,8 +49,6 @@ angular.module('Game')
                         $scope.isGameStarted = response["isGameStarted"];
                         $scope.isGameEnded = response["isGameEnded"];
                     }
-
-                    console.log($scope.playerId);
                 }
 
                 function onGetGameInfoError(response) {
