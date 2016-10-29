@@ -62,5 +62,14 @@ angular.module('Game')
 
                 };
 
+                service.Logout = function (username, successCallback) {
+
+                    $http.post('/logout?username=' + username)
+                        .success(function () {
+                            successCallback();
+                        });
+
+                };
+
                 return service;
             }]);

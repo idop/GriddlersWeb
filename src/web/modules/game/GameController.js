@@ -27,6 +27,7 @@ angular.module('Game')
                 $scope.isDisabled = true;
                 $scope.alwaysTrue = true;
                 $scope.playerType = null;
+                $scope.playerName = ($location.search()).playerName;
                 function getInitialPageResources() {
                     GameService.getGameInfo($scope.gameTitle, onGetGameInfoInitialSuccess, onGetGameInfoError);
                     GameService.getConstraints($scope.gameTitle, onGetConstraintsInitialSuccess, onGetConstraintsError);
@@ -174,6 +175,19 @@ angular.module('Game')
                     $scope.moveMap.clear();
                     GameService.doPlayerTurn($scope.gameTitle, $scope.playerId, $scope.playerType, playerTurn, onDoPlayerTurnSuccess, onDoPlayerTurnError)
                 };
+
+                $scope.logout = function () {
+                    unregisterPlayerFormGame();
+                    GameService.Logout($scope.playerName, onLogoutSuccess);
+                };
+
+                function unregisterPlayerFormGame(){
+
+                }
+
+                function onLogoutSuccess(){
+                    $location.url($location.path('/login'));
+                }
 
                 function init() {
                     getInitialPageResources();

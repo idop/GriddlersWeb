@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 import static constants.Constants.USERNAME;
 
@@ -23,5 +22,6 @@ public class LogoutService extends JsonHttpServlet {
         UserManager userManager = ServletUtils.getUserManager(getServletContext());
         String usernameFromParameter = request.getParameter(USERNAME);
         userManager.removeUser(usernameFromParameter);
+        request.getSession().invalidate();
     }
 }

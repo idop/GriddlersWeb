@@ -11,6 +11,7 @@ angular.module('Home')
                 $scope.selectedGame = null;
                 $scope.isGameSelected = false;
                 $scope.selectedGameId = null;
+                $scope.playerName = "";
 
                 $scope.selectGame = function (game, id) {
                     if ($scope.selectedGame == game) {
@@ -28,6 +29,15 @@ angular.module('Home')
 
                     HomeService.uploadGame(file, onFileUploadSuccess, onFileUploadError);
                 };
+
+                $scope.logout = function () {
+
+                    HomeService.Logout($scope.playerName, onLogoutSuccess);
+                };
+
+                function onLogoutSuccess(){
+                    $location.url($location.path('/login'));
+                }
 
                 $scope.chooseGame = function () {
                     if ($scope.selectedGame != null) {
@@ -66,10 +76,10 @@ angular.module('Home')
                 }
 
                 function init() {
+                    $scope.playerName = ($location.search()).playerName;
                     getPageResources();
                     $scope.pageRefrshInterval = setInterval(getPageResources, 2000);
                 }
-
 
 
                 init();
