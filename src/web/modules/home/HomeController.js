@@ -9,16 +9,17 @@ angular.module('Home')
                 $scope.GameList = [];
                 $scope.pageRefrshInterval = 0;
                 $scope.selectedGame = null;
-                $scope.isGameNotSelected = true;
+                $scope.isGameSelected = false;
                 $scope.selectedGameId = null;
+                $scope.playerName = "";
 
                 $scope.selectGame = function (game, id) {
-                    $scope.selectedGame = game;
-                    if (game == null || game == undefined) {
-                        $scope.isGameNotSelected = true;
+                    if ($scope.selectedGame == game) {
+                        $scope.isGameSelected = false;
                         $scope.selectedGameId = null;
                     } else {
-                        $scope.isGameNotSelected = false;
+                        $scope.selectedGame = game;
+                        $scope.isGameSelected = true;
                         $scope.selectedGameId = id;
                     }
                 };
@@ -28,6 +29,15 @@ angular.module('Home')
 
                     HomeService.uploadGame(file, onFileUploadSuccess, onFileUploadError);
                 };
+
+                $scope.logout = function () {
+
+                    HomeService.Logout($scope.playerName, onLogoutSuccess);
+                };
+
+                function onLogoutSuccess(){
+                    $location.url($location.path('/login'));
+                }
 
                 $scope.chooseGame = function () {
                     if ($scope.selectedGame != null) {
@@ -66,10 +76,10 @@ angular.module('Home')
                 }
 
                 function init() {
+                    $scope.playerName = ($location.search()).playerName;
                     getPageResources();
                     $scope.pageRefrshInterval = setInterval(getPageResources, 2000);
                 }
-
 
 
                 init();

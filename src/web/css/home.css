@@ -1,3 +1,6 @@
 .selected {
     background-color: #a6e1ec;
 }
+.disabled{
+    pointer-events: none;
+}

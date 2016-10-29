@@ -5,8 +5,8 @@
         <small>{{currentGameStatus}}</small>
     </div>
     <div class="col-md-3">
-        <button href="#/home" class="btn-link">Select another game</button>
-        <button href="#/login" class="btn-link">Logout</button>
+        <button class="btn-link" ng-class="{'disabled':isDisabled2}" ng-click="exitGame()">Select another game</button>
+        <button class="btn-link" ng-class="{'disabled':isDisabled2}" ng-click="logout()">Logout</button>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -20,10 +20,7 @@
                     </div>
                     <div>
                         <h4>Actions:</h4>
-                        <!--  <button class="btn btn-default btn-block">BLACK</button>
-                          <button class="btn btn-default btn-block">WHITE</button>
-                          <button class="btn btn-default btn-block">EMPTY</button> -->
-                        <div class="form-group .btn-group-justified">
+                        <div class="form-group">
                             <input type="radio" ng-model="boardSquare" value="Black">
                             Black
                             <input type="radio" ng-model="boardSquare" value="White">
@@ -31,8 +28,12 @@
                             <input type="radio" ng-model="boardSquare" value="Empty">
                             Empty
                         </div>
-                        <button class="btn btn-warning btn-block">UNDO</button>
-                        <button class="btn btn-danger btn-block">END MOVE</button>
+                        <button class="btn btn-warning btn-block" ng-class="{'disabled':isDisabled}"
+                                ng-click="doUndo()">UNDO
+                        </button>
+                        <button class="btn btn-danger btn-block" ng-class="{'disabled':isDisabled}" ng-click="doTurn()">
+                            END MOVE
+                        </button>
                     </div>
                     <div>
                         <h4>Player list:</h4>
@@ -85,9 +86,8 @@
 
                             <td ng-repeat="square in playerBoard[outerIndex2] track by $index"
                                 ng-click="onSquareClicked(outerIndex2,$index)"
-                                ng-class="square.isSelected? 'selected':'notselected'"
-                                class="ng-bind: square.color">
-                                &nbsp;
+                                ng-class="{'selected' :square.isSelected,'disabled':isDisabled,'Black':square.color=='Black','White':square.color=='White','Empty':square.color=='Empty'}"
+                                class="square">
                             </td>
                         </tr>
                         </tbody>

@@ -20,10 +20,15 @@ angular.module('Game')
                 $scope.playerList = [];
                 $scope.isGameStarted = false;
                 $scope.isGameEnded = false;
-                $scope.pageRefrshInterval = null;
+                $scope.pageRefrshInterval = 0;
                 $scope.boardSquare = 'Black';
                 $scope.playerBoard = [[]];
-                $scope.moveMap = null;
+                $scope.moveMap = new Map();
+                $scope.isDisabled = true;
+                $scope.isDisabled2 = true;
+                $scope.alwaysTrue = true;
+                $scope.playerType = null;
+                $scope.playerName = ($location.search()).playerName;
                 function getInitialPageResources() {
                     GameService.getGameInfo($scope.gameTitle, onGetGameInfoInitialSuccess, onGetGameInfoError);
                     GameService.getConstraints($scope.gameTitle, onGetConstraintsInitialSuccess, onGetConstraintsError);
@@ -56,6 +61,32 @@ angular.module('Game')
 
                 function onGetGameInfoSuccess(response) {
                     extractGameInfo(response);
+                    if ($scope.isGameStarted) {
+                        if ($scope.playerId == $scope.currentPlayerId) {
+                            if ($scope.playerType == "Computer") {
+                                $scope.isDisabled = $scope.isDisabled2 = true;
+                                GameService.doPlayerTurn($scope.gameTitle, $scope.playerId, $scope.playerType, {}, onDoComputerTurnSuccess, onDoPlayerTurnError)
+                            } else {
+                                $scope.isDisabled = $scope.isDisabled2 = false;
+                            }
+                        } else {
+                            $scope.isDisabled = $scope.isDisabled2 = true;
+                        }
+                    }
+                    if ($scope.isGameEnded) {
+                        $scope.isDisabled = true;
+                        $scope.isDisabled2 = false;
+                        clearInterval($scope.pageRefrshInterval);
+                    }
+                }
+
+                function onDoComputerTurnSuccess() {
+                    GameService.getPlayerBoard($scope.gameTitle, $scope.playerId, onGetPlayerBoardSuccess, onGetPlayerBoardError);
+                    GameService.doPlayerTurn($scope.gameTitle, $scope.playerId, $scope.playerType, {}, onDoComputerSecondTurnSuccess, onDoPlayerTurnError)
+                }
+
+                function onDoComputerSecondTurnSuccess() {
+                    GameService.getPlayerBoard($scope.gameTitle, $scope.playerId, onGetPlayerBoardSuccess, onGetPlayerBoardError);
                 }
 
                 function extractGameInfo(response) {
@@ -75,6 +106,7 @@ angular.module('Game')
                         for (var i = 0; i < $scope.playerList.length; ++i) {
                             if ($rootScope.globals.currentUser == $scope.playerList[i].name) {
                                 $scope.playerId = i;
+                                $scope.playerType = $scope.playerList[i].type;
                             }
                         }
                     }
@@ -85,10 +117,8 @@ angular.module('Game')
                 }
 
                 function onGetPlayerBoardSuccess(response) {
-                    console.log(response);
-
-                    for (var i = 0; i < rowConstraints.length; ++i) {
-                        for (var j = 0; j < columnConstraints[0].length; ++j) {
+                    for (var i = 0; i < response.length; ++i) {
+                        for (var j = 0; j < response[i].length; ++j) {
                             $scope.playerBoard[i][j].color = response[i][j];
                             $scope.playerBoard[i][j].isSelected = false;
                         }
@@ -99,7 +129,7 @@ angular.module('Game')
 
                 }
 
-                function ondoPlayerTurnSuccess(response) {
+                function onDoPlayerTurnSuccess() {
                     GameService.getPlayerBoard($scope.gameTitle, $scope.playerId, onGetPlayerBoardSuccess, onGetPlayerBoardError);
                 }
 
@@ -107,7 +137,7 @@ angular.module('Game')
 
                 }
 
-                function ondoPlayerUndoTurnSuccess(response) {
+                function onDoPlayerUndoTurnSuccess() {
                     GameService.getPlayerBoard($scope.gameTitle, $scope.playerId, onGetPlayerBoardSuccess, onGetPlayerBoardError);
                 }
 
@@ -116,10 +146,6 @@ angular.module('Game')
                 }
 
                 $scope.onSquareClicked = function (row, column) {
-                    if ($scope.moveMap == null) {
-                        $scope.moveMap = new Map();
-                    }
-
                     var key;
                     key = '(' + row + ',' + column + ')';
                     if (!$scope.moveMap.has(key)) {
@@ -127,17 +153,47 @@ angular.module('Game')
                         var value = {};
                         value["row"] = row;
                         value["column"] = column;
-                        value["BoardSquare"] = $scope.boardSquare
                         $scope.moveMap.set(key, value);
                     } else {
                         $scope.playerBoard[row][column].isSelected = false;
                         $scope.moveMap.delete(key);
                     }
 
-
-                    console.log($scope.moveMap);
-
                 };
+
+                $scope.doUndo = function () {
+                    GameService.doPlayerUndoTurn($scope.gameTitle, $scope.playerId, onDoPlayerUndoTurnSuccess, onDoPlayerUndoTurnError)
+                };
+
+                $scope.doTurn = function () {
+                    var playerTurn = [];
+                    var movesItr = $scope.moveMap.values();
+                    var currentMove;
+                    while ((currentMove = movesItr.next().value) != null) {
+                        var moveToAdd = {
+                            "row": currentMove.row,
+                            "column": currentMove.column,
+                            "newBoardSquare": $scope.boardSquare,
+                            "previousBoardSquare": $scope.boardSquare
+                        };
+                        playerTurn.push(moveToAdd)
+                    }
+                    $scope.moveMap.clear();
+                    GameService.doPlayerTurn($scope.gameTitle, $scope.playerId, $scope.playerType, playerTurn, onDoPlayerTurnSuccess, onDoPlayerTurnError)
+                };
+
+                $scope.logout = function () {
+                    unregisterPlayerFormGame();
+                    GameService.Logout($scope.playerName, onLogoutSuccess);
+                };
+
+                function unregisterPlayerFormGame() {
+
+                }
+
+                function onLogoutSuccess() {
+                    $location.url($location.path('/login'));
+                }
 
                 function init() {
                     getInitialPageResources();
@@ -146,4 +202,7 @@ angular.module('Game')
 
                 init();
 
-            }]);
+            }
+
+        ])
+;

@@ -33,7 +33,7 @@ public class PlayerGameStatistics {
         return score * 100;
     }
 
-    public String getScoreAsString() {return Double.toString(score);}
+    public String getScoreAsString() {return Double.toString(score* 100) +'%';}
 
     public void setScore(double score) {
         this.score = score;

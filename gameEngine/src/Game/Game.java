@@ -1,9 +1,6 @@
 package Game;
 
-import Game.Player.Player;
-import Game.Player.PlayerTurn;
-import Game.Player.PlayerTurnException;
-import Game.Player.PlayerType;
+import Game.Player.*;
 import GameXmlParser.GameBoardXmlParser;
 import GameXmlParser.Schema.Constraints;
 import GameXmlParser.Schema.GameType;
@@ -36,6 +33,7 @@ public class Game {
     private String status;
     private int moves;
     private boolean isGameStarted = false;
+    private int currentNumberOfPlayers =0;
 
     public int getRows() {
         return rows;
@@ -74,7 +72,13 @@ public class Game {
     }
 
     public void addPlayer(String playerName, PlayerType playerType) {
-        players.add(new Player(playerName, playerType, new GameBoard(rows, columns)));
+        ++currentNumberOfPlayers;
+        if(playerType == playerType.Human){
+            players.add(new HumenPlayer(playerName, playerType, new GameBoard(rows, columns)));
+        } else{
+            players.add(new ComputerPlayer(playerName, playerType, new GameBoard(rows, columns)));
+        }
+
         if (players.size() + 1 == numberOfPlayers) {
             status = "Game started current Player is: " + players.get(currentPlayerId).getName();
             isGameStarted = true;
@@ -155,16 +159,20 @@ public class Game {
     }
 
     public void doPlayerTurn(PlayerTurn turn) {
-        if (moves <= 2) {
-            Player currentPlayer = players.get(currentPlayerId);
-            currentPlayer.doTurn(turn, solutionBoard);
-            setPerfectConstraints();
-            playerWon = isGameEnded = currentPlayer.checkIfPlayerWon();
-            if(playerWon){
-                status = String.format("Player %s won!!!!",players.get(currentPlayerId).getName());
-            }
+        Player currentPlayer = players.get(currentPlayerId);
+        currentPlayer.doTurn(turn, solutionBoard);
+        setPerfectConstraints();
+        playerWon = isGameEnded = currentPlayer.checkIfPlayerWon();
+        if (playerWon) {
+            status = String.format("Player %s won!!!!", players.get(currentPlayerId).getName());
+        } else{
             ++moves;
+            if (moves > 2) {
+                moves = 1;
+                endRound();
+            }
         }
+
     }
 
 
@@ -188,8 +196,9 @@ public class Game {
     }
 
     public void endRound() {
-        int nextPlayerId = (currentPlayerId + 1) % numberOfPlayers;
+        int nextPlayerId = (currentPlayerId + 1) % currentNumberOfPlayers;
         currentPlayerId = nextPlayerId;
+        status = "Game started current Player is: " + players.get(currentPlayerId).getName();
         int newRoundNumber;
         if (nextPlayerId == 0) {
             newRoundNumber = currentRound + 1;
@@ -213,8 +222,12 @@ public class Game {
         return new ActiveGameInfo(totalRounds, currentPlayerId, status, currentRound, moves, playersInfo, isGameStarted, isGameEnded);
     }
 
-    public BoardSquare[][]  getPlayerBoard(int playerId) {
+    public BoardSquare[][] getPlayerBoard(int playerId) {
         return players.get(playerId).getGameBoard().getBoard();
+    }
+
+    public void unRegisterPlayer(int playerId) {
+        players.remove(playerId);
     }
 
     public class ActiveGameInfo {
