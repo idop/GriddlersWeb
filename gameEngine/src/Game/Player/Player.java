@@ -25,6 +25,7 @@ public class Player {
     private GameBoard gameBoard;
     private boolean playerWon = false;
     private PlayerGameStatistics statistics;
+    private boolean showPlayer = true;
 
 
     public Player(String name, PlayerType playerType, GameBoard gameBoard) {
@@ -34,6 +35,14 @@ public class Player {
         statistics = new PlayerGameStatistics();
         this.gameBoard = gameBoard;
         numberOfBoardSquares = gameBoard.getNumberOfSquares();
+    }
+
+    public boolean isShowPlayer() {
+        return showPlayer;
+    }
+
+    public void setShowPlayer(boolean showPlayer) {
+        this.showPlayer = showPlayer;
     }
 
     public String getName() {

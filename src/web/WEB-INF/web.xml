@@ -92,4 +92,12 @@
         <servlet-name>DoPlayerUndoTurnService</servlet-name>
         <url-pattern>/doPlayerUndoTurn</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>LeaveGameService</servlet-name>
+        <servlet-class>Services.LeaveGameService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LeaveGameService</servlet-name>
+        <url-pattern>/leaveGame</url-pattern>
+    </servlet-mapping>
 </web-app>

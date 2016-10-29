@@ -34,6 +34,7 @@ public class Game {
     private int moves;
     private boolean isGameStarted = false;
     private int currentNumberOfPlayers =0;
+    private boolean showGameinList = true;
 
     public int getRows() {
         return rows;
@@ -82,6 +83,7 @@ public class Game {
         if (players.size() + 1 == numberOfPlayers) {
             status = "Game started current Player is: " + players.get(currentPlayerId).getName();
             isGameStarted = true;
+            showGameinList = true;
         }
     }
 
@@ -196,11 +198,10 @@ public class Game {
     }
 
     public void endRound() {
-        int nextPlayerId = (currentPlayerId + 1) % currentNumberOfPlayers;
-        currentPlayerId = nextPlayerId;
+        updateCurrentPlayerId();
         status = "Game started current Player is: " + players.get(currentPlayerId).getName();
         int newRoundNumber;
-        if (nextPlayerId == 0) {
+        if (currentPlayerId == 0) {
             newRoundNumber = currentRound + 1;
             if (newRoundNumber > totalRounds) {
                 isGameEnded = true;
@@ -216,7 +217,7 @@ public class Game {
 
         for (int i = 0; i < players.size(); ++i) {
             Player currentPlayer = players.get(i);
-            playersInfo[i] = new ActiveGamePlayerInfo(currentPlayer.getName(), currentPlayer.getPlayerType(), currentPlayer.getScoreString());
+            playersInfo[i] = new ActiveGamePlayerInfo(currentPlayer.getName(), currentPlayer.getPlayerType(), currentPlayer.getScoreString(),currentPlayer.isShowPlayer());
         }
 
         return new ActiveGameInfo(totalRounds, currentPlayerId, status, currentRound, moves, playersInfo, isGameStarted, isGameEnded);
@@ -227,7 +228,42 @@ public class Game {
     }
 
     public void unRegisterPlayer(int playerId) {
-        players.remove(playerId);
+
+
+        if (isGameStarted) {
+            players.get(playerId).setShowPlayer(false);
+            --currentNumberOfPlayers;
+            if (currentNumberOfPlayers == 1) {
+                isGameEnded = true;
+                updateCurrentPlayerId();
+                status = String.format("player %s won due to all other players quiting. WHAT LOOSERS!!!!!", players.get(currentPlayerId).getName());
+            } else if (currentNumberOfPlayers == 0) {
+                isGameEnded = false;
+                showGameinList = true;
+                isGameStarted = false;
+                playerWon = false;
+                players.clear();
+            }else{
+                updateCurrentPlayerId();
+            }
+        } else{
+            players.remove(playerId);
+            --currentNumberOfPlayers;
+        }
+    }
+
+    private void updateCurrentPlayerId() {
+        boolean foundNextPlayer = false;
+        int nextPlayerId;
+        while(!foundNextPlayer){
+            nextPlayerId = (currentPlayerId + 1) % numberOfPlayers;
+            currentPlayerId = nextPlayerId;
+            Player nextPlayer= players.get(currentPlayerId);
+            if(nextPlayer.isShowPlayer()){
+                foundNextPlayer = true;
+            }
+        }
+
     }
 
     public class ActiveGameInfo {
@@ -256,11 +292,13 @@ public class Game {
         private String name;
         private PlayerType type;
         private String playerScore;
+        private boolean show;
 
-        public ActiveGamePlayerInfo(String name, PlayerType type, String playerScore) {
+        public ActiveGamePlayerInfo(String name, PlayerType type, String playerScore, boolean show) {
             this.name = name;
             this.type = type;
             this.playerScore = playerScore;
+            this.show = show;
         }
     }
 }

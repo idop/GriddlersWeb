@@ -15,7 +15,7 @@ import static constants.Constants.PLAYER_ID;
 
 /**
  * Created by ido on 29/10/2016.
- */@WebServlet(name = "LeaveGameService", urlPatterns = {"/LeaveGameService"})
+ */@WebServlet(name = "LeaveGameService", urlPatterns = {"/leaveGame"})
 public class LeaveGameService  extends JsonHttpServlet {
 
     @Override
@@ -26,6 +26,7 @@ public class LeaveGameService  extends JsonHttpServlet {
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
         Game game = gameManager.getGame(gameTitle);
         game.unRegisterPlayer(playerId);
+        response.setStatus(200);
     }
 
 }

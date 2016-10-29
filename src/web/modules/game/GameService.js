@@ -71,5 +71,14 @@ angular.module('Game')
 
                 };
 
+                service.LeaveGame = function (gameTitle, playerId,  successCallback) {
+
+                    $http.post('/leaveGame?gameTitle=' + gameTitle + '&playerId=' + playerId)
+                        .success(function () {
+                            successCallback();
+                        });
+
+                };
+
                 return service;
             }]);
