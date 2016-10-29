@@ -22,8 +22,14 @@
     line-height: 10px;
 }
 
-.segment .segment-content.perfect {
-    color: lightgray;
+.segment .segment-content {
+    color: lightblue;
+    text-decoration: line-through;
+    background: white;
+}
+
+.perfect {
+    color: lightblue;
     text-decoration: line-through;
     background: white;
 }

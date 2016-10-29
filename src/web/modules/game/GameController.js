@@ -43,8 +43,6 @@ angular.module('Game')
                 function onGetConstraintsSuccess(response) {
                     $scope.rowConstraints = response["row"];
                     $scope.columnConstraints = response["column"];
-                    console.log($scope.rowConstraints);
-                    console.log($scope.columnConstraints );
                 }
 
                 function onGetConstraintsInitialSuccess(response) {
@@ -126,7 +124,7 @@ angular.module('Game')
                         }
                     }
                     $scope.rowConstraints =GameService.setRowPerfectConstraints($scope.rowConstraints,$scope.playerBoard);
-                    $scope.columnConstraints =GameService.setRowPerfectConstraints($scope.columnConstraints,$scope.playerBoard);
+                    $scope.columnConstraints =GameService.setColumnPerfectConstraints($scope.columnConstraints,$scope.playerBoard);
                 }
 
                 function onGetPlayerBoardError(response) {
