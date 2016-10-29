@@ -32,5 +32,36 @@ angular.module('Game')
 
                 };
 
+
+                service.getPlayerBoard = function (gameTitle, playerId, successCallback, errorCallback) {
+
+                    $http.get('/getPlayerBoard?gameTitle=' + gameTitle+ '&playerId=' + playerId)
+                        .success(function (response) {
+                            successCallback(response);
+                        }).error(function (response) {
+                        errorCallback(response);
+                    });
+
+                };
+                service.doPlayerTurn = function (gameTitle, playerId, playerTurn, successCallback, errorCallback) {
+                    $http.get('/doPlayerTurn?gameTitle=' + gameTitle + '&playerId=' + playerId)
+                        .success(function (response) {
+                            successCallback(response);
+                        }).error(function (response) {
+                        errorCallback(response);
+                    });
+
+                };
+
+                service.doPlayerUndoTurn = function (gameTitle, playerId, successCallback, errorCallback) {
+                    $http.get('/doPlayerUndoTurn?gameTitle=' + gameTitle + '&playerId=' + playerId)
+                        .success(function (response) {
+                            successCallback(response);
+                        }).error(function (response) {
+                        errorCallback(response);
+                    });
+
+                };
+
                 return service;
             }]);

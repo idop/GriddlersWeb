@@ -50,7 +50,6 @@ public class ConstraintsService extends JsonHttpServlet {
             int k = 0;
             Constraints currentConstraints = constraints.get(i);
             for (int j = 0; j < maxNumberOfConstraints; ++j) {
-                System.out.println(String.format("i:%d j:%d k:%d currentConstraints.size():%d maxNumberOfConstraints - 1 - j:%d",i,j,k,currentConstraints.size(),maxNumberOfConstraints - 1 - j));
                 if ((maxNumberOfConstraints - j) < currentConstraints.size()) {
                     res[i][j] = currentConstraints.getConstraint(k);
                     ++k;

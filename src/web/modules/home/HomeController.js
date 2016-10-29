@@ -6,11 +6,22 @@ angular.module('Home')
         ['$scope', '$rootScope', '$location', 'HomeService',
             function ($scope, $rootScope, $location, HomeService) {
                 $scope.UserList = [];
-
                 $scope.GameList = [];
                 $scope.pageRefrshInterval = 0;
                 $scope.selectedGame = null;
                 $scope.isGameNotSelected = true;
+                $scope.selectedGameId = null;
+
+                $scope.selectGame = function (game, id) {
+                    $scope.selectedGame = game;
+                    if (game == null || game == undefined) {
+                        $scope.isGameNotSelected = true;
+                        $scope.selectedGameId = null;
+                    } else {
+                        $scope.isGameNotSelected = false;
+                        $scope.selectedGameId = id;
+                    }
+                };
 
                 $scope.uploadFile = function () {
                     var file = $scope.myFile;
@@ -19,11 +30,13 @@ angular.module('Home')
                 };
 
                 $scope.chooseGame = function () {
-                    HomeService.registerToGame($scope.selectedGame, onChooseGameSuccess, onChooseGameError);
+                    if ($scope.selectedGame != null) {
+                        HomeService.registerToGame($scope.selectedGame, onChooseGameSuccess, onChooseGameError);
+                    }
                 };
 
                 function onChooseGameSuccess(response) {
-                    $location.path('/game').search('title', $scope.selectedGame.title);
+                    $location.path('/game').search('state', '2').search('title', $scope.selectedGame.title);
                 }
 
                 function onChooseGameError(response) {
@@ -57,17 +70,7 @@ angular.module('Home')
                     $scope.pageRefrshInterval = setInterval(getPageResources, 2000);
                 }
 
-                $scope.selectedGameId = null;
-                $scope.selectGame = function (game, id) {
-                    $scope.selectedGame = game;
-                    if (game == null || game == undefined) {
-                        $scope.isGameNotSelected = true
-                        $scope.selectedGameId = null;
-                    } else {
-                        $scope.isGameNotSelected = false;
-                        $scope.selectedGameId = id;
-                    }
-                };
+
 
                 init();
 

@@ -15,7 +15,7 @@ angular.module('login')
         function loginSuccess(response){
             $rootScope.globals.currentUser = $scope.username;
             $scope.dataLoading = false;
-            $location.path('/home');
+            $location.path('/home').search('state', '1').search('playerName', $scope.username);
         }
 
         function loginError(response){
