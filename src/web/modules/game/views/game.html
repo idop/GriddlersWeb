@@ -5,8 +5,8 @@
         <small>{{currentGameStatus}}</small>
     </div>
     <div class="col-md-3">
-        <button class="btn-link" ng-class="{'disabled':isDisabled2}" ng-click="exitGame()">Select another game</button>
-        <button class="btn-link" ng-class="{'disabled':isDisabled2}" ng-click="logout()">Logout</button>
+        <button class="btn btn-danger btn-block" ng-class="{'disabled':isDisabled2}" ng-click="exitGame()">Exit Game</button>
+        <button class="btn btn-danger btn-block" ng-class="{'disabled':isDisabled2}" ng-click="logout()">Logout</button>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -39,7 +39,7 @@
                         <h4>Player list:</h4>
                         <table class="table">
                             <tbody>
-                            <tr ng-repeat="player in playerList">
+                            <tr ng-repeat="player in playerList" ng-show="player.show">
                                 <td>{{player.name}}</td>
                                 <td>{{player.type}}</td>
                                 <td>{{player.playerScore}}</td>
@@ -64,7 +64,7 @@
                             </td>
 
                             <td class="" style="text-align: center;"
-                                ng-class="columnConstraints[outerIndex][$index].isPerfect ? 'perfect' : ''"
+                                ng-class="{'perfect' : columnConstraints[outerIndex][$index].isPerfect}"
                                 ng-repeat="constraint in columnConstraint track by $index"
                             >
                                 {{columnConstraints[outerIndex][$index] != null ?
@@ -77,7 +77,7 @@
                                 ng-click="selectRow($index)">
 
                                     <span class="left-segment " style="text-align: right;"
-                                          ng-class="rowConstraints[outerIndex2][$index].isPerfect ? 'perfect' : '' "
+                                          ng-class="{'perfect' : rowConstraints[outerIndex2][$index].isPerfect }"
                                           ng-repeat="constraint in rowConstraints[$index] track by $index"
                                     >
                                         {{rowConstraints[outerIndex2][$index] != null ? rowConstraints[outerIndex2][$index].constraint : '&nbsp'}}

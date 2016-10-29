@@ -195,6 +195,14 @@ angular.module('Game')
                     $location.url($location.path('/login'));
                 }
 
+                $scope.exitGame = function(){
+                    GameService.LeaveGame($scope.gameTitle, $scope.playerId, onExitGameSuccess)
+                };
+
+                function onExitGameSuccess(){
+                    $location.url($location.path('/home').search('state', '1').search('playerName', $scope.playerName))
+                }
+
                 function init() {
                     getInitialPageResources();
                     $scope.pageRefrshInterval = setInterval(getPageResources, 2000);
