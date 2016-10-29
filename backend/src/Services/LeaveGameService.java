@@ -26,6 +26,7 @@ public class LeaveGameService  extends JsonHttpServlet {
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
         Game game = gameManager.getGame(gameTitle);
         game.unRegisterPlayer(playerId);
+        gameManager.updateGameInfo(gameTitle);
         response.setStatus(200);
     }
 

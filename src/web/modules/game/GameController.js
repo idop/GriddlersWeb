@@ -123,6 +123,8 @@ angular.module('Game')
                             $scope.playerBoard[i][j].isSelected = false;
                         }
                     }
+                    $scope.rowConstraints =GameService.setRowPerfectConstraints($scope.rowConstraints,$scope.playerBoard);
+                    $scope.columnConstraints =GameService.setRowPerfectConstraints($scope.columnConstraints,$scope.playerBoard);
                 }
 
                 function onGetPlayerBoardError(response) {
@@ -183,7 +185,7 @@ angular.module('Game')
                 };
 
                 $scope.logout = function () {
-                    unregisterPlayerFormGame();
+                    GameService.LeaveGame($scope.gameTitle, $scope.playerId, unregisterPlayerFormGame)
                     GameService.Logout($scope.playerName, onLogoutSuccess);
                 };
 
@@ -195,12 +197,12 @@ angular.module('Game')
                     $location.url($location.path('/login'));
                 }
 
-                $scope.exitGame = function(){
+                $scope.exitGame = function () {
                     GameService.LeaveGame($scope.gameTitle, $scope.playerId, onExitGameSuccess)
                 };
 
-                function onExitGameSuccess(){
-                    $location.url($location.path('/home').search('state', '1').search('playerName', $scope.playerName))
+                function onExitGameSuccess() {
+                    $location.path('/home').search('state', '1').search('playerName', $scope.playerName).search('title', null);
                 }
 
                 function init() {

@@ -24,19 +24,6 @@ angular.module('Home')
                         $scope.selectedGameId = id;
                     }
                 };
-                /*
-                $scope.filter('displayGame', function() {
-                    return function(input) {
-                        var out = [];
-                        for (var i = 0; i < input.length; i++) {
-                            if(input[i].display == true){
-                                out.push(input[i]);
-                            }
-                        }
-                        return out;
-                    }
-                });
-                */
 
                 $scope.uploadFile = function () {
                     var file = $scope.myFile;
@@ -55,6 +42,7 @@ angular.module('Home')
 
                 $scope.chooseGame = function () {
                     if ($scope.selectedGame != null) {
+                        $scope.isGameSelected = false;
                         HomeService.registerToGame($scope.selectedGame, onChooseGameSuccess, onChooseGameError);
                     }
                 };

@@ -84,7 +84,7 @@ public class Game {
             players.add(new ComputerPlayer(playerName, playerType, new GameBoard(rows, columns)));
         }
 
-        if (players.size() + 1 == numberOfPlayers) {
+        if (currentNumberOfPlayers == numberOfPlayers) {
             status = "Game started current Player is: " + players.get(currentPlayerId).getName();
             isGameStarted = true;
             show = false;

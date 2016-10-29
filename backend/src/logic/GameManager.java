@@ -53,4 +53,10 @@ public class GameManager {
     public Game getGame(String gameTitle) {
         return games.get(gameTitle);
     }
+
+    public void updateGameInfo(String gameTitle) {
+        GameInfo gameInfo = gamesInfo.get(gameTitle);
+        Game game = games.get(gameTitle);
+        gameInfo.setDisplay(game.isShow());
+    }
 }

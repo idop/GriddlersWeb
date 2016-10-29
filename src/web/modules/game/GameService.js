@@ -80,5 +80,17 @@ angular.module('Game')
 
                 };
 
+                service.setRowPerfectConstraints =  function(rowConstraints,gamaBoard){
+                    //do work on rowConstraints
+
+                    return rowConstraints;
+                };
+
+                service.setColumnPerfectConstraints =  function(columnConstraints,gamaBoard){
+                    //do work on columnConstraints
+
+                    return columnConstraints;
+                };
+
                 return service;
             }]);
