@@ -77,7 +77,7 @@
                                 ng-click="selectRow($index)">
 
                                     <span class="left-segment " style="text-align: right;"
-                                          ng-class="rowConstraints[outerIndex2][$index].isPerfect ? 'perfect' : '' "
+                                          ng-class="{'perfect' : rowConstraints[outerIndex2][$index].isPerfect }"
                                           ng-repeat="constraint in rowConstraints[$index] track by $index"
                                     >
                                         {{rowConstraints[outerIndex2][$index] != null ? rowConstraints[outerIndex2][$index].constraint : '&nbsp'}}
