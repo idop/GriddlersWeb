@@ -47,6 +47,7 @@ public class GameManager {
 
         gameInfo.registerPlayer();
         game.addPlayer(user.getUsername(),user.getPlayerType());
+        gameInfo.setDisplay(game.isShow());
     }
 
     public Game getGame(String gameTitle) {

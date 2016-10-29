@@ -87,10 +87,6 @@ angular.module('Home')
 
                 function getGameListCallBack(response) {
                     $scope.GameList = response;
-                    $scope.GameList = [
-                        {title:"simple game", uploadedBy: "amitai", totalMoves: "15", rows: "10", columns: "15", numberOfRegisteredPlayers: "1", numberOfPlayers: "1", display: true},
-                        {title:"simple game2", uploadedBy: "Ido", totalMoves: "15", rows: "10", columns: "15", numberOfRegisteredPlayers: "1", numberOfPlayers: "1", display: false}
-                    ];
                 }
 
 

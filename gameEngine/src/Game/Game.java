@@ -34,7 +34,11 @@ public class Game {
     private int moves;
     private boolean isGameStarted = false;
     private int currentNumberOfPlayers =0;
-    private boolean showGameinList = true;
+    private boolean show = true;
+
+    public boolean isShow() {
+        return show;
+    }
 
     public int getRows() {
         return rows;
@@ -83,7 +87,7 @@ public class Game {
         if (players.size() + 1 == numberOfPlayers) {
             status = "Game started current Player is: " + players.get(currentPlayerId).getName();
             isGameStarted = true;
-            showGameinList = true;
+            show = false;
         }
     }
 
@@ -239,7 +243,7 @@ public class Game {
                 status = String.format("player %s won due to all other players quiting. WHAT LOOSERS!!!!!", players.get(currentPlayerId).getName());
             } else if (currentNumberOfPlayers == 0) {
                 isGameEnded = false;
-                showGameinList = true;
+                show = true;
                 isGameStarted = false;
                 playerWon = false;
                 players.clear();
