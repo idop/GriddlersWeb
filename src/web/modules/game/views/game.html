@@ -5,8 +5,8 @@
         <small>{{currentGameStatus}}</small>
     </div>
     <div class="col-md-3">
-        <button class="btn-link" ng-class="{'disabled':isDisabled2}" ng-click="exitGame()">Select another game</button>
-        <button class="btn-link" ng-class="{'disabled':isDisabled2}" ng-click="logout()">Logout</button>
+        <button class="btn btn-danger btn-block" ng-class="{'disabled':isDisabled2}" ng-click="exitGame()">Exit Game</button>
+        <button class="btn btn-danger btn-block" ng-class="{'disabled':isDisabled2}" ng-click="logout()">Logout</button>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -39,7 +39,7 @@
                         <h4>Player list:</h4>
                         <table class="table">
                             <tbody>
-                            <tr ng-repeat="player in playerList">
+                            <tr ng-repeat="player in playerList" ng-show="player.show">
                                 <td>{{player.name}}</td>
                                 <td>{{player.type}}</td>
                                 <td>{{player.playerScore}}</td>
