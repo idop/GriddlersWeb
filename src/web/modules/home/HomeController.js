@@ -9,16 +9,16 @@ angular.module('Home')
                 $scope.GameList = [];
                 $scope.pageRefrshInterval = 0;
                 $scope.selectedGame = null;
-                $scope.isGameNotSelected = true;
+                $scope.isGameSelected = false;
                 $scope.selectedGameId = null;
 
                 $scope.selectGame = function (game, id) {
-                    $scope.selectedGame = game;
-                    if (game == null || game == undefined) {
-                        $scope.isGameNotSelected = true;
+                    if ($scope.selectedGame == game) {
+                        $scope.isGameSelected = false;
                         $scope.selectedGameId = null;
                     } else {
-                        $scope.isGameNotSelected = false;
+                        $scope.selectedGame = game;
+                        $scope.isGameSelected = true;
                         $scope.selectedGameId = id;
                     }
                 };

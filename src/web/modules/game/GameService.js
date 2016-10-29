@@ -35,7 +35,7 @@ angular.module('Game')
 
                 service.getPlayerBoard = function (gameTitle, playerId, successCallback, errorCallback) {
 
-                    $http.get('/getPlayerBoard?gameTitle=' + gameTitle+ '&playerId=' + playerId)
+                    $http.get('/getPlayerBoard?gameTitle=' + gameTitle + '&playerId=' + playerId)
                         .success(function (response) {
                             successCallback(response);
                         }).error(function (response) {
@@ -43,20 +43,19 @@ angular.module('Game')
                     });
 
                 };
-                service.doPlayerTurn = function (gameTitle, playerId, playerTurn, successCallback, errorCallback) {
-                    $http.get('/doPlayerTurn?gameTitle=' + gameTitle + '&playerId=' + playerId)
-                        .success(function (response) {
-                            successCallback(response);
+                service.doPlayerTurn = function (gameTitle, playerId, playerType, playerTurn, successCallback, errorCallback) {
+                    $http.post('/doPlayerTurn?gameTitle=' + gameTitle + '&playerId=' + playerId + '&playerType=' + playerType, playerTurn, {headers: {'Content-Type': 'application/json'}})
+                        .success(function () {
+                            successCallback();
                         }).error(function (response) {
                         errorCallback(response);
                     });
-
                 };
 
                 service.doPlayerUndoTurn = function (gameTitle, playerId, successCallback, errorCallback) {
-                    $http.get('/doPlayerUndoTurn?gameTitle=' + gameTitle + '&playerId=' + playerId)
-                        .success(function (response) {
-                            successCallback(response);
+                    $http.post('/doPlayerUndoTurn?gameTitle=' + gameTitle + '&playerId=' + playerId)
+                        .success(function () {
+                            successCallback();
                         }).error(function (response) {
                         errorCallback(response);
                     });

@@ -31,8 +31,12 @@
                             <input type="radio" ng-model="boardSquare" value="Empty">
                             Empty
                         </div>
-                        <button class="btn btn-warning btn-block">UNDO</button>
-                        <button class="btn btn-danger btn-block">END MOVE</button>
+                        <button class="btn btn-warning btn-block" ng-class="{'disabled':isDisabled}"
+                                ng-click="doUndo()">UNDO
+                        </button>
+                        <button class="btn btn-danger btn-block" ng-class="{'disabled':isDisabled}" ng-click="doTurn()">
+                            END MOVE
+                        </button>
                     </div>
                     <div>
                         <h4>Player list:</h4>
@@ -85,9 +89,8 @@
 
                             <td ng-repeat="square in playerBoard[outerIndex2] track by $index"
                                 ng-click="onSquareClicked(outerIndex2,$index)"
-                                ng-class="square.isSelected? 'selected':'notselected'"
-                                class="ng-bind: square.color">
-                                &nbsp;
+                                ng-class="{'selected' :square.isSelected,'disabled':isDisabled,'Black':square.color=='Black','White':square.color=='White','Empty':square.color=='Empty'}"
+                                class="square">
                             </td>
                         </tr>
                         </tbody>

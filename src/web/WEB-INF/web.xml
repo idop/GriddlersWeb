@@ -68,7 +68,6 @@
         <servlet-name>ActiveGameInfoService</servlet-name>
         <url-pattern>/getActiveGameInfo</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>PlayerBoardService</servlet-name>
         <servlet-class>Services.PlayerBoardService</servlet-class>
@@ -77,4 +76,13 @@
         <servlet-name>PlayerBoardService</servlet-name>
         <url-pattern>/getPlayerBoard</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>DoPlayerTurnService</servlet-name>
+        <servlet-class>Services.DoPlayerTurnService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DoPlayerTurnService</servlet-name>
+        <url-pattern>/doPlayerTurn</url-pattern>
+    </servlet-mapping>
+
 </web-app>
