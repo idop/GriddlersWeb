@@ -23,7 +23,7 @@ angular.module('Game')
                 $scope.pageRefrshInterval = null;
                 $scope.boardSquare = 'Black';
                 $scope.playerBoard = [[]];
-                $scope.moveMap = null;
+                $scope.moveMap = new Map();
                 $scope.isDisabled = true;
                 $scope.alwaysTrue = true;
                 $scope.playerType = null;
@@ -96,8 +96,8 @@ angular.module('Game')
                 function onGetPlayerBoardSuccess(response) {
                     console.log(response);
 
-                    for (var i = 0; i < rowConstraints.length; ++i) {
-                        for (var j = 0; j < columnConstraints[0].length; ++j) {
+                    for (var i = 0; i < response.length; ++i) {
+                        for (var j = 0; j < response[i].length; ++j) {
                             $scope.playerBoard[i][j].color = response[i][j];
                             $scope.playerBoard[i][j].isSelected = false;
                         }
@@ -125,10 +125,6 @@ angular.module('Game')
                 }
 
                 $scope.onSquareClicked = function (row, column) {
-                    if ($scope.moveMap == null) {
-                        $scope.moveMap = new Map();
-                    }
-
                     var key;
                     key = '(' + row + ',' + column + ')';
                     if (!$scope.moveMap.has(key)) {
@@ -149,7 +145,7 @@ angular.module('Game')
                 };
 
                 $scope.doTurn = function () {
-                    var playerTurn = new Array($scope.moveMap.size);
+                    var playerTurn = [];
                     var movesItr = $scope.moveMap.values();
                     var currentMove;
                     while ((currentMove = movesItr.next().value) != null) {
@@ -160,8 +156,8 @@ angular.module('Game')
                             "previousBoardSquare": $scope.boardSquare
                         };
                         playerTurn.push(moveToAdd)
-
                     }
+                    $scope.moveMap.clear();
                     GameService.doPlayerTurn($scope.gameTitle, $scope.playerId, $scope.playerType, playerTurn, ondoPlayerTurnSuccess, onDoPlayerTurnError)
                 };
 

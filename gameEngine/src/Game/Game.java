@@ -155,16 +155,20 @@ public class Game {
     }
 
     public void doPlayerTurn(PlayerTurn turn) {
-        if (moves <= 2) {
-            Player currentPlayer = players.get(currentPlayerId);
-            currentPlayer.doTurn(turn, solutionBoard);
-            setPerfectConstraints();
-            playerWon = isGameEnded = currentPlayer.checkIfPlayerWon();
-            if(playerWon){
-                status = String.format("Player %s won!!!!",players.get(currentPlayerId).getName());
-            }
+        Player currentPlayer = players.get(currentPlayerId);
+        currentPlayer.doTurn(turn, solutionBoard);
+        setPerfectConstraints();
+        playerWon = isGameEnded = currentPlayer.checkIfPlayerWon();
+        if (playerWon) {
+            status = String.format("Player %s won!!!!", players.get(currentPlayerId).getName());
+        } else{
             ++moves;
+            if (moves > 2) {
+                moves = 1;
+                endRound();
+            }
         }
+
     }
 
 
@@ -190,6 +194,7 @@ public class Game {
     public void endRound() {
         int nextPlayerId = (currentPlayerId + 1) % numberOfPlayers;
         currentPlayerId = nextPlayerId;
+        status = "Game started current Player is: " + players.get(currentPlayerId).getName();
         int newRoundNumber;
         if (nextPlayerId == 0) {
             newRoundNumber = currentRound + 1;
@@ -213,7 +218,7 @@ public class Game {
         return new ActiveGameInfo(totalRounds, currentPlayerId, status, currentRound, moves, playersInfo, isGameStarted, isGameEnded);
     }
 
-    public BoardSquare[][]  getPlayerBoard(int playerId) {
+    public BoardSquare[][] getPlayerBoard(int playerId) {
         return players.get(playerId).getGameBoard().getBoard();
     }
 
