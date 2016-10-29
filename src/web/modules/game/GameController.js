@@ -22,10 +22,11 @@ angular.module('Game')
                 $scope.isGameEnded = false;
                 $scope.pageRefrshInterval = null;
                 $scope.boardSquare = 'Black';
-                $scope.playerBoard =[];
+                $scope.playerBoard = [[]];
+                $scope.moveMap = null;
                 function getInitialPageResources() {
                     GameService.getGameInfo($scope.gameTitle, onGetGameInfoInitialSuccess, onGetGameInfoError);
-                    GameService.getConstraints($scope.gameTitle, onGetConstraintsSuccess, onGetConstraintsError);
+                    GameService.getConstraints($scope.gameTitle, onGetConstraintsInitialSuccess, onGetConstraintsError);
                 }
 
                 function getPageResources() {
@@ -37,13 +38,17 @@ angular.module('Game')
                 function onGetConstraintsSuccess(response) {
                     $scope.rowConstraints = response["row"];
                     $scope.columnConstraints = response["column"];
-                    for (var i = 0; i < rowConstraints.length; ++i) {
-                        for (var j = 0; j < columnConstraints[0].length; ++j) {
-                            $scope.playerBoard[i][j].color="Empty";
-                            scope.playerBoard[i][j].isSelected=false;
+                }
+
+                function onGetConstraintsInitialSuccess(response) {
+                    onGetConstraintsSuccess(response);
+                    $scope.playerBoard = new Array($scope.rowConstraints.length);
+                    for (var i = 0; i < $scope.rowConstraints.length; ++i) {
+                        $scope.playerBoard[i] = new Array($scope.columnConstraints[0].length);
+                        for (var j = 0; j < $scope.columnConstraints[0].length; ++j) {
+                            $scope.playerBoard[i][j] = {"color": "Empty", "isSelected": false}
                         }
                     }
-                    console.log($scope.playerBoard);
                 }
 
                 function onGetConstraintsError(response) {
@@ -84,8 +89,8 @@ angular.module('Game')
 
                     for (var i = 0; i < rowConstraints.length; ++i) {
                         for (var j = 0; j < columnConstraints[0].length; ++j) {
-                            $scope.playerBoard[i][j].color=response[i][j];
-                            scope.playerBoard[i][j].isSelected=false;
+                            $scope.playerBoard[i][j].color = response[i][j];
+                            $scope.playerBoard[i][j].isSelected = false;
                         }
                     }
                 }
@@ -110,10 +115,29 @@ angular.module('Game')
 
                 }
 
-                function onSquareClicked(row,column) {
-                    console.log(row);
-                    console.log(column);
-                }
+                $scope.onSquareClicked = function (row, column) {
+                    if ($scope.moveMap == null) {
+                        $scope.moveMap = new Map();
+                    }
+
+                    var key;
+                    key = '(' + row + ',' + column + ')';
+                    if (!$scope.moveMap.has(key)) {
+                        $scope.playerBoard[row][column].isSelected = true;
+                        var value = {};
+                        value["row"] = row;
+                        value["column"] = column;
+                        value["BoardSquare"] = $scope.boardSquare
+                        $scope.moveMap.set(key, value);
+                    } else {
+                        $scope.playerBoard[row][column].isSelected = false;
+                        $scope.moveMap.delete(key);
+                    }
+
+
+                    console.log($scope.moveMap);
+
+                };
 
                 function init() {
                     getInitialPageResources();
