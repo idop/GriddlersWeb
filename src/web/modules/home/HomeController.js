@@ -24,7 +24,7 @@ angular.module('Home')
                         $scope.selectedGameId = id;
                     }
                 };
-
+                /*
                 $scope.filter('displayGame', function() {
                     return function(input) {
                         var out = [];
@@ -36,7 +36,7 @@ angular.module('Home')
                         return out;
                     }
                 });
-
+                */
 
                 $scope.uploadFile = function () {
                     var file = $scope.myFile;
