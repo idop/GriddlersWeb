@@ -59,4 +59,12 @@ public class GameManager {
         Game game = games.get(gameTitle);
         gameInfo.setDisplay(game.isShow());
     }
+
+    public void unregisterPlayer(String gameTitle, int playerId) throws ServiceException {
+        Game game = games.get(gameTitle);
+        GameInfo gameInfo = gamesInfo.get(gameTitle);
+        game.unRegisterPlayer(playerId);
+        gameInfo.unregisterPlayer();
+        gameInfo.setDisplay(game.isShow());
+    }
 }

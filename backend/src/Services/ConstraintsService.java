@@ -40,7 +40,6 @@ public class ConstraintsService extends JsonHttpServlet {
             out.print(jsonResponse);
             out.flush();
         }
-
     }
 
     private Constraint[][] createRowConstraintMatrix(List<Constraints> constraints, int maxNumberOfConstraints) {
@@ -50,7 +49,7 @@ public class ConstraintsService extends JsonHttpServlet {
             int k = 0;
             Constraints currentConstraints = constraints.get(i);
             for (int j = 0; j < maxNumberOfConstraints; ++j) {
-                if ((maxNumberOfConstraints - j) < currentConstraints.size()) {
+                if ((maxNumberOfConstraints - j) <= currentConstraints.size()) {
                     res[i][j] = currentConstraints.getConstraint(k);
                     ++k;
                 }
@@ -67,7 +66,7 @@ public class ConstraintsService extends JsonHttpServlet {
             Constraints currentConstraints = constraints.get(i);
             int k = 0;
             for (int j = 0; j < maxNumberOfConstraints; ++j) {
-                if ((maxNumberOfConstraints - j) < currentConstraints.size()) {
+                if ((maxNumberOfConstraints - j) <= currentConstraints.size()) {
                     res[j][i] = currentConstraints.getConstraint(k);
                     ++k;
                 }

@@ -35,4 +35,11 @@ public class GameInfo {
         }
         numberOfRegisteredPlayers++;
     }
+
+    public void unregisterPlayer() throws ServiceException {
+        if (numberOfRegisteredPlayers <= 0) {
+            throw new ServiceException("Game number of players can't bne negative");
+        }
+        --numberOfRegisteredPlayers;
+    }
 }

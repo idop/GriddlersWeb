@@ -1,7 +1,7 @@
 package Services;
 
-import Game.Game;
 import logic.GameManager;
+import logic.ServiceException;
 import utils.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -24,9 +24,12 @@ public class LeaveGameService  extends JsonHttpServlet {
         String gameTitle = request.getParameter(GAMETITLE);
         int playerId = Integer.parseInt(request.getParameter(PLAYER_ID));
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
-        Game game = gameManager.getGame(gameTitle);
-        game.unRegisterPlayer(playerId);
-        gameManager.updateGameInfo(gameTitle);
+        try {
+            gameManager.unregisterPlayer(gameTitle,playerId);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+            response.setStatus(400);
+        }
         response.setStatus(200);
     }
 

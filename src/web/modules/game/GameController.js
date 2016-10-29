@@ -43,6 +43,8 @@ angular.module('Game')
                 function onGetConstraintsSuccess(response) {
                     $scope.rowConstraints = response["row"];
                     $scope.columnConstraints = response["column"];
+                    console.log($scope.rowConstraints);
+                    console.log($scope.columnConstraints );
                 }
 
                 function onGetConstraintsInitialSuccess(response) {
@@ -207,7 +209,7 @@ angular.module('Game')
 
                 function init() {
                     getInitialPageResources();
-                    $scope.pageRefrshInterval = setInterval(getPageResources, 2000);
+               //     $scope.pageRefrshInterval = setInterval(getPageResources, 2000);
                 }
 
                 init();
