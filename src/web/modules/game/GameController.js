@@ -59,11 +59,27 @@ angular.module('Game')
 
                 function onGetGameInfoSuccess(response) {
                     extractGameInfo(response);
-                    if ($scope.isGameStarted && $scope.playerId == $scope.currentPlayerId) {
-                        $scope.isDisabled = false;
-                    } else {
-                        $scope.isDisabled = true;
+                    if ($scope.isGameStarted) {
+                        if ($scope.playerId == $scope.currentPlayerId) {
+                            if ($scope.playerType == "Computer") {
+                                $scope.isDisabled = true;
+                                GameService.doPlayerTurn($scope.gameTitle, $scope.playerId, $scope.playerType, {}, onDoComputerTurnSuccess, onDoPlayerTurnError)
+                            } else {
+                                $scope.isDisabled = false;
+                            }
+                        } else {
+                            $scope.isDisabled = true;
+                        }
                     }
+                }
+
+                function onDoComputerTurnSuccess() {
+                    GameService.getPlayerBoard($scope.gameTitle, $scope.playerId, onGetPlayerBoardSuccess, onGetPlayerBoardError);
+                    GameService.doPlayerTurn($scope.gameTitle, $scope.playerId, $scope.playerType, {}, onDoComputerSecondTurnSuccess, onDoPlayerTurnError)
+                }
+
+                function onDoComputerSecondTurnSuccess() {
+                    GameService.getPlayerBoard($scope.gameTitle, $scope.playerId, onGetPlayerBoardSuccess, onGetPlayerBoardError);
                 }
 
                 function extractGameInfo(response) {
@@ -94,8 +110,6 @@ angular.module('Game')
                 }
 
                 function onGetPlayerBoardSuccess(response) {
-                    console.log(response);
-
                     for (var i = 0; i < response.length; ++i) {
                         for (var j = 0; j < response[i].length; ++j) {
                             $scope.playerBoard[i][j].color = response[i][j];
@@ -108,7 +122,7 @@ angular.module('Game')
 
                 }
 
-                function ondoPlayerTurnSuccess() {
+                function onDoPlayerTurnSuccess() {
                     GameService.getPlayerBoard($scope.gameTitle, $scope.playerId, onGetPlayerBoardSuccess, onGetPlayerBoardError);
                 }
 
@@ -116,7 +130,7 @@ angular.module('Game')
 
                 }
 
-                function ondoPlayerUndoTurnSuccess() {
+                function onDoPlayerUndoTurnSuccess() {
                     GameService.getPlayerBoard($scope.gameTitle, $scope.playerId, onGetPlayerBoardSuccess, onGetPlayerBoardError);
                 }
 
@@ -141,7 +155,7 @@ angular.module('Game')
                 };
 
                 $scope.doUndo = function () {
-
+                    GameService.doPlayerUndoTurn($scope.gameTitle, $scope.playerId, onDoPlayerUndoTurnSuccess, onDoPlayerUndoTurnError)
                 };
 
                 $scope.doTurn = function () {
@@ -158,7 +172,7 @@ angular.module('Game')
                         playerTurn.push(moveToAdd)
                     }
                     $scope.moveMap.clear();
-                    GameService.doPlayerTurn($scope.gameTitle, $scope.playerId, $scope.playerType, playerTurn, ondoPlayerTurnSuccess, onDoPlayerTurnError)
+                    GameService.doPlayerTurn($scope.gameTitle, $scope.playerId, $scope.playerType, playerTurn, onDoPlayerTurnSuccess, onDoPlayerTurnError)
                 };
 
                 function init() {
@@ -168,4 +182,7 @@ angular.module('Game')
 
                 init();
 
-            }]);
+            }
+
+        ])
+;

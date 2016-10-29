@@ -1,9 +1,6 @@
 package Game;
 
-import Game.Player.Player;
-import Game.Player.PlayerTurn;
-import Game.Player.PlayerTurnException;
-import Game.Player.PlayerType;
+import Game.Player.*;
 import GameXmlParser.GameBoardXmlParser;
 import GameXmlParser.Schema.Constraints;
 import GameXmlParser.Schema.GameType;
@@ -74,7 +71,12 @@ public class Game {
     }
 
     public void addPlayer(String playerName, PlayerType playerType) {
-        players.add(new Player(playerName, playerType, new GameBoard(rows, columns)));
+        if(playerType == playerType.Human){
+            players.add(new HumenPlayer(playerName, playerType, new GameBoard(rows, columns)));
+        } else{
+            players.add(new ComputerPlayer(playerName, playerType, new GameBoard(rows, columns)));
+        }
+
         if (players.size() + 1 == numberOfPlayers) {
             status = "Game started current Player is: " + players.get(currentPlayerId).getName();
             isGameStarted = true;

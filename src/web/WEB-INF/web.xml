@@ -84,5 +84,12 @@
         <servlet-name>DoPlayerTurnService</servlet-name>
         <url-pattern>/doPlayerTurn</url-pattern>
     </servlet-mapping>
-
+    <servlet>
+        <servlet-name>DoPlayerUndoTurnService</servlet-name>
+        <servlet-class>Services.DoPlayerUndoTurnService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DoPlayerUndoTurnService</servlet-name>
+        <url-pattern>/doPlayerUndoTurn</url-pattern>
+    </servlet-mapping>
 </web-app>
