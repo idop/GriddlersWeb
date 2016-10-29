@@ -13,6 +13,7 @@ angular.module('Home')
                 $scope.selectedGameId = null;
                 $scope.playerName = "";
 
+
                 $scope.selectGame = function (game, id) {
                     if ($scope.selectedGame == game) {
                         $scope.isGameSelected = false;
@@ -23,6 +24,19 @@ angular.module('Home')
                         $scope.selectedGameId = id;
                     }
                 };
+
+                $scope.filter('displayGame', function() {
+                    return function(input) {
+                        var out = [];
+                        for (var i = 0; i < input.length; i++) {
+                            if(input[i].display == true){
+                                out.push(input[i]);
+                            }
+                        }
+                        return out;
+                    }
+                });
+
 
                 $scope.uploadFile = function () {
                     var file = $scope.myFile;
@@ -73,7 +87,12 @@ angular.module('Home')
 
                 function getGameListCallBack(response) {
                     $scope.GameList = response;
+                    $scope.GameList = [
+                        {title:"simple game", uploadedBy: "amitai", totalMoves: "15", rows: "10", columns: "15", numberOfRegisteredPlayers: "1", numberOfPlayers: "1", display: "true"},
+                        {title:"simple game2", uploadedBy: "Ido", totalMoves: "15", rows: "10", columns: "15", numberOfRegisteredPlayers: "1", numberOfPlayers: "1", display: "false"}
+                    ];
                 }
+
 
                 function init() {
                     $scope.playerName = ($location.search()).playerName;

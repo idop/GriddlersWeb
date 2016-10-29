@@ -34,7 +34,7 @@
             </tr>
             </thead>
             <tbody style="cursor: pointer">
-            <tr ng-repeat="Game in GameList" ng-click="selectGame(Game,$index)"  ng-class="{'selected': $index === selectedGameId}">
+            <tr ng-repeat="Game in GameList | displayGame" ng-click="selectGame(Game,$index)"  ng-class="{'selected': $index === selectedGameId}">
                 <td>{{Game.title}}</td>
                 <td>{{Game.uploadedBy}}</td>
                 <td>{{Game.totalMoves}}</td>
@@ -43,10 +43,10 @@
             </tr>
             </tbody>
         </table>
-        <button ng-click="chooseGame()" ng-class="isGameSelected? '' :'disabled'" class="btn btn-info">Go to Game</button>
+        <button ng-click="chooseGame()" ng-disabled="isGameSelected" class="btn btn-info">Go to Game</button>
     </div>
     <h3>Or simply quit why don't you...</h3>
-    <button class="btn-link" ng-click="logout()">Logout</button>
+    <p><a href="#/login" class="btn-link">Logout</a></a></p>
 </div>
 
 
