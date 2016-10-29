@@ -31,10 +31,10 @@
     line-height: 10px; }
 
 .gridTable {
-    background: black;
+    background: darkgray;
     border-collapse: separate;
     border-spacing: 3px 3px;
-    margin: 30px;
+    margin: auto;
     text-align: center;}
 
 
