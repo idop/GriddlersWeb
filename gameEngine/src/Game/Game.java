@@ -213,6 +213,10 @@ public class Game {
         return new ActiveGameInfo(totalRounds, currentPlayerId, status, currentRound, moves, playersInfo, isGameStarted, isGameEnded);
     }
 
+    public BoardSquare[][]  getPlayerBoard(int playerId) {
+        return players.get(playerId).getGameBoard().getBoard();
+    }
+
     public class ActiveGameInfo {
         private int currentPlayerId;
         private String currentGameStatus;

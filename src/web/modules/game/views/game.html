@@ -20,9 +20,17 @@
                     </div>
                     <div>
                         <h4>Actions:</h4>
-                        <button class="btn btn-default btn-block">BLACK</button>
-                        <button class="btn btn-default btn-block">WHITE</button>
-                        <button class="btn btn-default btn-block">EMPTY</button>
+                        <!--  <button class="btn btn-default btn-block">BLACK</button>
+                          <button class="btn btn-default btn-block">WHITE</button>
+                          <button class="btn btn-default btn-block">EMPTY</button> -->
+                        <div class="form-group">
+                            <input type="radio" ng-model="boardSquare" value="Black">
+                            Black
+                            <input type="radio" ng-model="boardSquare" value="White">
+                            White
+                            <input type="radio" ng-model="boardSquare" value="Empty">
+                            Empty
+                        </div>
                         <button class="btn btn-warning btn-block">UNDO</button>
                         <button class="btn btn-danger btn-block">END MOVE</button>
                     </div>
@@ -46,41 +54,42 @@
                     <table class="gridTable">
                         <!-- column constraints segment -->
                         <tbody>
-                            <tr class=""
-                                ng-repeat="columnConstraint in columnConstraints track by $index"
-                                ng-init="outerIndex = $index"
-                                ng-click="selectColumn($index)">
-                                <td class=" ">
-                                    &nbsp;
-                                </td>
+                        <tr class=""
+                            ng-repeat="columnConstraint in columnConstraints track by $index"
+                            ng-init="outerIndex = $index"
+                            ng-click="selectColumn($index)">
+                            <td class=" ">
+                                &nbsp;
+                            </td>
 
-                                <td class="" style="text-align: center;"
-                                     ng-class="columnConstraints[outerIndex][$index].isPerfect ? 'perfect' : ''"
-                                     ng-repeat="constraint in columnConstraint track by $index"
-                                    >
-                                    {{columnConstraints[outerIndex][$index] != null ? columnConstraints[outerIndex][$index].constraint : '&nbsp'}}
-                                </td>
-                            </tr>
-                            <tr ng-repeat="row in rowConstraints track by $index"
-                                ng-init="outerIndex2=$index">
-                                <td class="left-segment "
-                                    ng-click="selectRow($index)">
+                            <td class="" style="text-align: center;"
+                                ng-class="columnConstraints[outerIndex][$index].isPerfect ? 'perfect' : ''"
+                                ng-repeat="constraint in columnConstraint track by $index"
+                            >
+                                {{columnConstraints[outerIndex][$index] != null ?
+                                columnConstraints[outerIndex][$index].constraint : '&nbsp'}}
+                            </td>
+                        </tr>
+                        <tr ng-repeat="row in rowConstraints track by $index"
+                            ng-init="outerIndex2=$index">
+                            <td class="left-segment "
+                                ng-click="selectRow($index)">
 
                                     <span class="left-segment " style="text-align: right;"
-                                         ng-class="rowConstraints[outerIndex2][$index].isPerfect ? 'perfect' : '' "
-                                         ng-repeat="constraint in rowConstraints[$index] track by $index"
-                                        >
+                                          ng-class="rowConstraints[outerIndex2][$index].isPerfect ? 'perfect' : '' "
+                                          ng-repeat="constraint in rowConstraints[$index] track by $index"
+                                    >
                                         {{rowConstraints[outerIndex2][$index] != null ? rowConstraints[outerIndex2][$index].constraint : '&nbsp'}}
                                     </span>
-                                </td>
+                            </td>
 
-                                <td ng-repeat="square in columnConstraints[0] track by $index"
-                                    ng-click="onSquareClicked(square)"
-                                    ng-class="square.selected? 'selected':'notselected'"
-                                    class="square {{square.color}}">
-                                    &nbsp;
-                                </td>
-                            </tr>
+                            <td ng-repeat="square in playerBoard[outerIndex2] track by $index"
+                                ng-click="onSquareClicked(outerIndex2,$index)"
+                                ng-class="square.isSelected? 'selected':'notselected'"
+                                class="ng-bind: square.color">
+                                &nbsp;
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

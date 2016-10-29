@@ -68,4 +68,13 @@
         <servlet-name>ActiveGameInfoService</servlet-name>
         <url-pattern>/getActiveGameInfo</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>PlayerBoardService</servlet-name>
+        <servlet-class>Services.PlayerBoardService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PlayerBoardService</servlet-name>
+        <url-pattern>/getPlayerBoard</url-pattern>
+    </servlet-mapping>
 </web-app>
