@@ -33,6 +33,7 @@ public class Game {
     private String status;
     private int moves;
     private boolean isGameStarted = false;
+    private int currentNumberOfPlayers =0;
 
     public int getRows() {
         return rows;
@@ -71,6 +72,7 @@ public class Game {
     }
 
     public void addPlayer(String playerName, PlayerType playerType) {
+        ++currentNumberOfPlayers;
         if(playerType == playerType.Human){
             players.add(new HumenPlayer(playerName, playerType, new GameBoard(rows, columns)));
         } else{
@@ -194,7 +196,7 @@ public class Game {
     }
 
     public void endRound() {
-        int nextPlayerId = (currentPlayerId + 1) % numberOfPlayers;
+        int nextPlayerId = (currentPlayerId + 1) % currentNumberOfPlayers;
         currentPlayerId = nextPlayerId;
         status = "Game started current Player is: " + players.get(currentPlayerId).getName();
         int newRoundNumber;
@@ -222,6 +224,10 @@ public class Game {
 
     public BoardSquare[][] getPlayerBoard(int playerId) {
         return players.get(playerId).getGameBoard().getBoard();
+    }
+
+    public void unRegisterPlayer(int playerId) {
+        players.remove(playerId);
     }
 
     public class ActiveGameInfo {

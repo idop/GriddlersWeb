@@ -6,14 +6,10 @@ import GameXmlParser.Schema.Constraint;
 import GameXmlParser.Schema.Constraints;
 import GameXmlParser.Schema.GameType;
 import GameXmlParser.Schema.Generated.*;
-import com.sun.deploy.util.StringUtils;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;

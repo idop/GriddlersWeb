@@ -20,11 +20,12 @@ angular.module('Game')
                 $scope.playerList = [];
                 $scope.isGameStarted = false;
                 $scope.isGameEnded = false;
-                $scope.pageRefrshInterval = null;
+                $scope.pageRefrshInterval = 0;
                 $scope.boardSquare = 'Black';
                 $scope.playerBoard = [[]];
                 $scope.moveMap = new Map();
                 $scope.isDisabled = true;
+                $scope.isDisabled2 = true;
                 $scope.alwaysTrue = true;
                 $scope.playerType = null;
                 $scope.playerName = ($location.search()).playerName;
@@ -63,14 +64,19 @@ angular.module('Game')
                     if ($scope.isGameStarted) {
                         if ($scope.playerId == $scope.currentPlayerId) {
                             if ($scope.playerType == "Computer") {
-                                $scope.isDisabled = true;
+                                $scope.isDisabled = $scope.isDisabled2 = true;
                                 GameService.doPlayerTurn($scope.gameTitle, $scope.playerId, $scope.playerType, {}, onDoComputerTurnSuccess, onDoPlayerTurnError)
                             } else {
-                                $scope.isDisabled = false;
+                                $scope.isDisabled = $scope.isDisabled2 = false;
                             }
                         } else {
-                            $scope.isDisabled = true;
+                            $scope.isDisabled = $scope.isDisabled2 = true;
                         }
+                    }
+                    if ($scope.isGameEnded) {
+                        $scope.isDisabled = true;
+                        $scope.isDisabled2 = false;
+                        clearInterval($scope.pageRefrshInterval);
                     }
                 }
 
@@ -181,11 +187,11 @@ angular.module('Game')
                     GameService.Logout($scope.playerName, onLogoutSuccess);
                 };
 
-                function unregisterPlayerFormGame(){
+                function unregisterPlayerFormGame() {
 
                 }
 
-                function onLogoutSuccess(){
+                function onLogoutSuccess() {
                     $location.url($location.path('/login'));
                 }
 

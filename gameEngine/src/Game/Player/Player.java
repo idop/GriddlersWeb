@@ -26,6 +26,7 @@ public class Player {
     private boolean playerWon = false;
     private PlayerGameStatistics statistics;
 
+
     public Player(String name, PlayerType playerType, GameBoard gameBoard) {
         this.name = name;
         this.playerType = playerType;

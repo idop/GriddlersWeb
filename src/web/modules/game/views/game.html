@@ -5,8 +5,8 @@
         <small>{{currentGameStatus}}</small>
     </div>
     <div class="col-md-3">
-        <button href="#/home" class="btn-link">Select another game</button>
-        <button class="btn-link" ng-click="logout()">Logout</button>
+        <button class="btn-link" ng-class="{'disabled':isDisabled2}" ng-click="exitGame()">Select another game</button>
+        <button class="btn-link" ng-class="{'disabled':isDisabled2}" ng-click="logout()">Logout</button>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -20,9 +20,6 @@
                     </div>
                     <div>
                         <h4>Actions:</h4>
-                        <!--  <button class="btn btn-default btn-block">BLACK</button>
-                          <button class="btn btn-default btn-block">WHITE</button>
-                          <button class="btn btn-default btn-block">EMPTY</button> -->
                         <div class="form-group">
                             <input type="radio" ng-model="boardSquare" value="Black">
                             Black
