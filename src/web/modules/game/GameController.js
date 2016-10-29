@@ -209,7 +209,7 @@ angular.module('Game')
 
                 function init() {
                     getInitialPageResources();
-               //     $scope.pageRefrshInterval = setInterval(getPageResources, 2000);
+                    $scope.pageRefrshInterval = setInterval(getPageResources, 2000);
                 }
 
                 init();

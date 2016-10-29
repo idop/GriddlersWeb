@@ -54,12 +54,6 @@ public class GameManager {
         return games.get(gameTitle);
     }
 
-    public void updateGameInfo(String gameTitle) {
-        GameInfo gameInfo = gamesInfo.get(gameTitle);
-        Game game = games.get(gameTitle);
-        gameInfo.setDisplay(game.isShow());
-    }
-
     public void unregisterPlayer(String gameTitle, int playerId) throws ServiceException {
         Game game = games.get(gameTitle);
         GameInfo gameInfo = gamesInfo.get(gameTitle);
