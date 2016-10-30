@@ -36,17 +36,11 @@ angular.module('Game')
 
                 function getPageResources() {
                     GameService.getGameInfo($scope.gameTitle, onGetGameInfoSuccess, onGetGameInfoError);
-                    GameService.getConstraints($scope.gameTitle, onGetConstraintsSuccess, onGetConstraintsError);
-                }
-
-
-                function onGetConstraintsSuccess(response) {
-                    $scope.rowConstraints = response["row"];
-                    $scope.columnConstraints = response["column"];
                 }
 
                 function onGetConstraintsInitialSuccess(response) {
-                    onGetConstraintsSuccess(response);
+                    $scope.rowConstraints = response["row"];
+                    $scope.columnConstraints = response["column"];
                     $scope.playerBoard = new Array($scope.rowConstraints.length);
                     for (var i = 0; i < $scope.rowConstraints.length; ++i) {
                         $scope.playerBoard[i] = new Array($scope.columnConstraints[0].length);
