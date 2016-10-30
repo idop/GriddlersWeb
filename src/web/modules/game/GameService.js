@@ -82,9 +82,6 @@ angular.module('Game')
 
                 service.setRowPerfectConstraints = function (rowConstraints, gameBoard) {
                     //do work on rowConstraints
-                    console.log(gameBoard);
-                    console.log("number of rows is: " + gameBoard.length);
-                    console.log(rowConstraints);
                     var streakLength = 0;
                     var bStreakLength = 0;
                     var wantedStreak = 0;
@@ -94,16 +91,18 @@ angular.module('Game')
                     var rows = gameBoard.length;
                     var columns = gameBoard[0].length;
                     var maxRConstraints = rowConstraints[0].length;
+                    var validConstraint = false;
 
                     for (var i = 0; i < rows; i++) {
                         for (var j = 0; j < columns; j++) {
                             // find the wanted streak and the amount of minimum remainder squares needed
-                            for (var k = 0; k < maxRConstraints; k++) {
+                            for (var k = 0; k < maxRConstraints && validConstraint == false; k++) {
                                 if (rowConstraints[i][k] != null && rowConstraints[i][k].isPerfect == false) {
+                                    validConstraint = true;
                                     wantedStreak = rowConstraints[i][k].constraint;
                                     constraintIndex = k;
                                 }
-                                if (k < maxRConstraints - 1) {   // if it is not the last row constraint
+                                if (k < maxRConstraints - 1 && validConstraint == true) {   // if it is not the last row constraint
                                     for (var m = k + 1; m < maxRConstraints; m++) {
                                         if (rowConstraints[i][m] != null) {
                                             remainder += rowConstraints[i][m].constraint + 1;
@@ -119,18 +118,23 @@ angular.module('Game')
                                     rowConstraints[i][constraintIndex].isPerfect = true;
                                     streakLength = 0;
                                     remainder = 0;
+                                    validConstraint = false;
                                 }
                             }
                         }
+                        validConstraint = false;
+                        remainder = 0;
+                        streakLength = 0;
                         // now again from end to beginning...
                         for (var j = columns - 1; j >= 0; j--) {
                             // find the wanted streak and the amount of minimum remainder squares needed
-                            for (var k = maxRConstraints - 1; k >= 0; k--) {
+                            for (var k = maxRConstraints - 1; k >= 0 && validConstraint == false; k--) {
                                 if (rowConstraints[i][k] != null && rowConstraints[i][k].isPerfect == false) {
+                                    validConstraint = true;
                                     wantedStreak = rowConstraints[i][k].constraint;
                                     constraintIndex = k;
                                 }
-                                if (k >= 1) {   // if it is not the last row constraint
+                                if (k >= 1 && validConstraint == true) {   // if it is not the last row constraint
                                     for (var m = k - 1; m >= 0; m--) {
                                         if (rowConstraints[i][m] != null) {
                                             remainderBack += rowConstraints[i][m].constraint + 1;
@@ -146,21 +150,101 @@ angular.module('Game')
                                     rowConstraints[i][constraintIndex].isPerfect = true;
                                     bStreakLength = 0;
                                     remainderBack = 0;
+                                    validConstraint = false;
                                 }
                             }
                         }
+                        validConstraint = false;
+                        remainderBack = 0;
+                        streakLength = 0;
                     }
                     return rowConstraints;
                 };
 
                 service.setColumnPerfectConstraints = function (columnConstraints, gameBoard) {
-                    //do work on columnConstraints
-                    /*
-                     console.log(gameBoard);
-                     console.log("number of columns is: " + gameBoard[0].length);
-                     console.log(columnConstraints);
-                     */
+                    console.log("Column constraints: ");
+                    console.log(columnConstraints);
+                    var streakLength = 0;
+                    var bStreakLength = 0;
+                    var wantedStreak = 0;
+                    var remainder = 0;
+                    var remainderBack = 0;
+                    var constraintIndex = 0;
+                    var rows = gameBoard.length;
+                    var columns = gameBoard[0].length;
+                    var maxCConstraints = columnConstraints.length;
+                    console.log("max column constraints = "+ maxCConstraints);
+                    var validConstraint = false;
 
+                    for (var j = 0; j < columns; j++) {
+                        for (var i = 0; i < rows; i++) {
+                            // find the wanted streak and the amount of minimum remainder squares needed
+                            for (var k = 0; k < maxCConstraints && validConstraint == false; k++) {
+                                if (columnConstraints[k][j] != null && columnConstraints[k][j].isPerfect == false) {
+                                    validConstraint = true;
+                                    wantedStreak = columnConstraints[k][j].constraint;
+                                    constraintIndex = k;
+                                    console.log("wanted column streak is: " + wantedStreak);
+                                    console.log("column constraint index is: " + constraintIndex);
+                                }
+                                if (k < maxCConstraints - 1 && validConstraint == true) {   // if it is not the last row constraint
+                                    for (var m = k + 1; m < maxCConstraints; m++) {
+                                        if (columnConstraints[m][j] != null) {
+                                            remainder += columnConstraints[m][j].constraint + 1;
+                                            console.log("remainder in column is: " + remainder);
+                                        }
+                                    }
+                                }
+                            }
+                            if (gameBoard[i][j].color == "Black") {
+                                streakLength++;
+                            }
+                            else if (gameBoard[i][j].color == "White") {
+                                if (streakLength == wantedStreak && (rows - i - remainder >= 0)) {
+                                    console.log("setting perfect to column: " + j + " on row " + constraintIndex);
+                                    columnConstraints[constraintIndex][j].isPerfect = true;
+                                    streakLength = 0;
+                                    remainder = 0;
+                                    validConstraint = false;
+                                }
+                            }
+                        }
+                        validConstraint = false;
+                        remainder = 0;
+                        streakLength = 0;
+                        // now again from end to beginning...
+                        for (var i = rows - 1; i >= 0; i--) {
+                            // find the wanted streak and the amount of minimum remainder squares needed
+                            for (var k = maxCConstraints - 1; k >= 0 && validConstraint == false; k--) {
+                                if (columnConstraints[k][j] != null && columnConstraints[k][j].isPerfect == false) {
+                                    validConstraint = true;
+                                    wantedStreak = columnConstraints[k][j].constraint;
+                                    constraintIndex = k;
+                                }
+                                if (k >= 1 && validConstraint == true) {   // if it is not the last row constraint
+                                    for (var m = k - 1; m >= 0; m--) {
+                                        if (columnConstraints[m][j] != null) {
+                                            remainderBack += columnConstraints[m][j].constraint + 1;
+                                        }
+                                    }
+                                }
+                            }
+                            if (gameBoard[i][j].color == "Black") {
+                                bStreakLength++;
+                            }
+                            else if (gameBoard[i][j].color == "White") {
+                                if (streakLength == wantedStreak && (i - remainder >= 0)) {
+                                    columnConstraints[constraintIndex][j].isPerfect = true;
+                                    bStreakLength = 0;
+                                    remainderBack = 0;
+                                    validConstraint = false;
+                                }
+                            }
+                        }
+                        validConstraint = false;
+                        remainderBack = 0;
+                        streakLength = 0;
+                    }
                     return columnConstraints // don't delete this
                 };
 
