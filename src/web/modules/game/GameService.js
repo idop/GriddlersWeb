@@ -79,9 +79,20 @@ angular.module('Game')
                         });
 
                 };
+                function revertConstraint(Constraints) {
+                    for (var i = 0; i < Constraints.length; i++) {
+                        for (var j = 0; j < Constraints[i].length; j++) {
+                            if( Constraints[i][j] != null){
+                                Constraints[i][j].isPerfect =false;
+                            }
+                        }
+                    }
+                    return Constraints;
+                }
 
                 service.setRowPerfectConstraints = function (rowConstraints, gameBoard) {
                     //do work on rowConstraints
+                    rowConstraints = revertConstraint(rowConstraints);
                     var streakLength = 0;
                     var bStreakLength = 0;
                     var wantedStreak = 0;
@@ -115,7 +126,7 @@ angular.module('Game')
                                 streakLength++;
                                 wasPreviousBlack = true;
                             }
-                            else if(gameBoard[i][j].color == "Empty"){
+                            else if (gameBoard[i][j].color == "Empty") {
                                 wasPreviousBlack = false;
                             }
                             else if (gameBoard[i][j].color == "White") {
@@ -154,7 +165,7 @@ angular.module('Game')
                                 bStreakLength++;
                                 wasPreviousBlack = true;
                             }
-                            else if (gameBoard[i][j].color == "Empty"){
+                            else if (gameBoard[i][j].color == "Empty") {
                                 wasPreviousBlack = false;
                             }
                             else if (gameBoard[i][j].color == "White") {
@@ -176,8 +187,10 @@ angular.module('Game')
                 };
 
                 service.setColumnPerfectConstraints = function (columnConstraints, gameBoard) {
-                    console.log("Column constraints: ");
-                    console.log(columnConstraints);
+                    //console.log("Column constraints: ");
+                    // console.log(columnConstraints);
+
+                    columnConstraints = revertConstraint(columnConstraints);
                     var streakLength = 0;
                     var bStreakLength = 0;
                     var wantedStreak = 0;
@@ -187,7 +200,7 @@ angular.module('Game')
                     var rows = gameBoard.length;
                     var columns = gameBoard[0].length;
                     var maxCConstraints = columnConstraints.length;
-                    console.log("max column constraints = "+ maxCConstraints);
+                    //console.log("max column constraints = "+ maxCConstraints);
                     var validConstraint = false;
                     var wasPreviousBlack = false;
 
@@ -199,14 +212,14 @@ angular.module('Game')
                                     validConstraint = true;
                                     wantedStreak = columnConstraints[k][j].constraint;
                                     constraintIndex = k;
-                                    console.log("wanted column streak is: " + wantedStreak);
-                                    console.log("column constraint index is: " + constraintIndex);
+                                    //  console.log("wanted column streak is: " + wantedStreak);
+                                    //  console.log("column constraint index is: " + constraintIndex);
                                 }
                                 if (k < maxCConstraints - 1 && validConstraint == true) {   // if it is not the last row constraint
                                     for (var m = k + 1; m < maxCConstraints; m++) {
                                         if (columnConstraints[m][j] != null) {
                                             remainder += columnConstraints[m][j].constraint + 1;
-                                            console.log("remainder in column is: " + remainder);
+                                            //console.log("remainder in column is: " + remainder);
                                         }
                                     }
                                 }
@@ -215,12 +228,12 @@ angular.module('Game')
                                 streakLength++;
                                 wasPreviousBlack = true;
                             }
-                            else if(gameBoard[i][j].color == "Empty"){
+                            else if (gameBoard[i][j].color == "Empty") {
                                 wasPreviousBlack = false;
                             }
-                            else if(gameBoard[i][j].color == "White") {
+                            else if (gameBoard[i][j].color == "White") {
                                 if (streakLength == wantedStreak && (rows - i - remainder >= 0) && wasPreviousBlack == true) {
-                                    console.log("setting perfect to column: " + j + " on row " + constraintIndex);
+                                    // console.log("setting perfect to column: " + j + " on row " + constraintIndex);
                                     columnConstraints[constraintIndex][j].isPerfect = true;
                                     streakLength = 0;
                                     remainder = 0;
@@ -255,7 +268,7 @@ angular.module('Game')
                                 bStreakLength++;
                                 wasPreviousBlack = true;
                             }
-                            else if(gameBoard[i][j].color == "Empty"){
+                            else if (gameBoard[i][j].color == "Empty") {
                                 wasPreviousBlack = false;
                             }
                             else if (gameBoard[i][j].color == "White") {

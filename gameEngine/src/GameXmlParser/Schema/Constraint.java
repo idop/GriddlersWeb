@@ -9,7 +9,8 @@ public class Constraint {
 
     public Constraint(int constraint) {
         this.constraint = constraint;
-        isPerfect = false;
+
+        isPerfect = (constraint == 0);
     }
 
     @Override

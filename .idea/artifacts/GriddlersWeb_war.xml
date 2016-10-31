@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="GriddlersWeb:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/GriddlersWeb_war</output-path>
+    <root id="archive" name="GriddlersWeb_war.war">
+      <element id="artifact" artifact-name="GriddlersWeb:war exploded" />
+    </root>
+  </artifact>
+</component>
