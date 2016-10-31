@@ -33,7 +33,15 @@ public class PlayerGameStatistics {
         return score * 100;
     }
 
-    public String getScoreAsString() {return Double.toString(score* 100) +'%';}
+    //public String getScoreAsString() {return Double.toString(score* 100) +'%';}
+
+    public String getScoreAsString() {
+        String res;
+        Double displayScore = score * 100;
+        res = String.format("%.2f",(displayScore));
+        res += '%';
+        return res;
+    }
 
     public void setScore(double score) {
         this.score = score;

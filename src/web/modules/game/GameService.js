@@ -92,6 +92,7 @@ angular.module('Game')
                     var columns = gameBoard[0].length;
                     var maxRConstraints = rowConstraints[0].length;
                     var validConstraint = false;
+                    var wasPreviousBlack = false;
 
                     for (var i = 0; i < rows; i++) {
                         for (var j = 0; j < columns; j++) {
@@ -112,19 +113,26 @@ angular.module('Game')
                             }
                             if (gameBoard[i][j].color == "Black") {
                                 streakLength++;
+                                wasPreviousBlack = true;
+                            }
+                            else if(gameBoard[i][j].color == "Empty"){
+                                wasPreviousBlack = false;
                             }
                             else if (gameBoard[i][j].color == "White") {
-                                if (streakLength == wantedStreak && (columns - j - remainder >= 0)) {
+                                if (streakLength == wantedStreak && (columns - j - remainder >= 0) && wasPreviousBlack == true) {
                                     rowConstraints[i][constraintIndex].isPerfect = true;
                                     streakLength = 0;
                                     remainder = 0;
                                     validConstraint = false;
+                                    wasPreviousBlack = false;
                                 }
                             }
                         }
                         validConstraint = false;
                         remainder = 0;
                         streakLength = 0;
+                        wasPreviousBlack = false;
+
                         // now again from end to beginning...
                         for (var j = columns - 1; j >= 0; j--) {
                             // find the wanted streak and the amount of minimum remainder squares needed
@@ -144,19 +152,25 @@ angular.module('Game')
                             }
                             if (gameBoard[i][j].color == "Black") {
                                 bStreakLength++;
+                                wasPreviousBlack = true;
+                            }
+                            else if (gameBoard[i][j].color == "Empty"){
+                                wasPreviousBlack = false;
                             }
                             else if (gameBoard[i][j].color == "White") {
-                                if (streakLength == wantedStreak && (j - remainder >= 0)) {
+                                if (bStreakLength == wantedStreak && (j - remainderBack >= 0) && wasPreviousBlack == true) {
                                     rowConstraints[i][constraintIndex].isPerfect = true;
                                     bStreakLength = 0;
                                     remainderBack = 0;
                                     validConstraint = false;
+                                    wasPreviousBlack = false;
                                 }
                             }
                         }
                         validConstraint = false;
                         remainderBack = 0;
-                        streakLength = 0;
+                        bStreakLength = 0;
+                        wasPreviousBlack = false;
                     }
                     return rowConstraints;
                 };
@@ -175,6 +189,7 @@ angular.module('Game')
                     var maxCConstraints = columnConstraints.length;
                     console.log("max column constraints = "+ maxCConstraints);
                     var validConstraint = false;
+                    var wasPreviousBlack = false;
 
                     for (var j = 0; j < columns; j++) {
                         for (var i = 0; i < rows; i++) {
@@ -198,20 +213,27 @@ angular.module('Game')
                             }
                             if (gameBoard[i][j].color == "Black") {
                                 streakLength++;
+                                wasPreviousBlack = true;
                             }
-                            else if (gameBoard[i][j].color == "White") {
-                                if (streakLength == wantedStreak && (rows - i - remainder >= 0)) {
+                            else if(gameBoard[i][j].color == "Empty"){
+                                wasPreviousBlack = false;
+                            }
+                            else if(gameBoard[i][j].color == "White") {
+                                if (streakLength == wantedStreak && (rows - i - remainder >= 0) && wasPreviousBlack == true) {
                                     console.log("setting perfect to column: " + j + " on row " + constraintIndex);
                                     columnConstraints[constraintIndex][j].isPerfect = true;
                                     streakLength = 0;
                                     remainder = 0;
                                     validConstraint = false;
+                                    wasPreviousBlack = false;
                                 }
                             }
                         }
                         validConstraint = false;
                         remainder = 0;
                         streakLength = 0;
+                        wasPreviousBlack = false;
+
                         // now again from end to beginning...
                         for (var i = rows - 1; i >= 0; i--) {
                             // find the wanted streak and the amount of minimum remainder squares needed
@@ -231,19 +253,25 @@ angular.module('Game')
                             }
                             if (gameBoard[i][j].color == "Black") {
                                 bStreakLength++;
+                                wasPreviousBlack = true;
+                            }
+                            else if(gameBoard[i][j].color == "Empty"){
+                                wasPreviousBlack = false;
                             }
                             else if (gameBoard[i][j].color == "White") {
-                                if (streakLength == wantedStreak && (i - remainder >= 0)) {
+                                if (bStreakLength == wantedStreak && (i - remainderBack >= 0) && wasPreviousBlack == true) {
                                     columnConstraints[constraintIndex][j].isPerfect = true;
                                     bStreakLength = 0;
                                     remainderBack = 0;
                                     validConstraint = false;
+                                    wasPreviousBlack = false;
                                 }
                             }
                         }
                         validConstraint = false;
                         remainderBack = 0;
-                        streakLength = 0;
+                        bStreakLength = 0;
+                        wasPreviousBlack = false;
                     }
                     return columnConstraints // don't delete this
                 };
